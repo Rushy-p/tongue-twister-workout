@@ -6,7 +6,7 @@ This implementation plan creates a Go-based web application with server-side ren
 
 ## Tasks
 
-- [ ] 1. Set up project structure and core configuration
+- [-] 1. Set up project structure and core configuration
   - [ ] 1.1 Create project directory structure (cmd, internal/pkg, internal/domain, internal/infrastructure, internal/service, internal/handler, templates, static)
   - [ ] 1.2 Initialize Go module with go.mod
   - [ ] 1.3 Create main.go entry point with basic HTTP server setup
