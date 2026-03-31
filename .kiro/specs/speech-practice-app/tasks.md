@@ -11,31 +11,31 @@ This implementation plan creates a Go-based web application with server-side ren
   - [x] 1.2 Initialize Go module with go.mod
   - [x] 1.3 Create main.go entry point with basic HTTP server setup
   - [x] 1.4 Configure logging and error handling middleware
-  - [-] ⬜ Commit: git add . && git commit -m "Set up project structure and core configuration"
+  - [x] ⬜ Commit: git add . && git commit -m "Set up project structure and core configuration"
   - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5_
 
-- [ ] 2. Implement domain models
-  - [ ] 2.1 Create Exercise, TongueTwister, Strategy domain entities
+- [x] 2. Implement domain models
+  - [x] 2.1 Create Exercise, TongueTwister, Strategy domain entities
     - Define Exercise struct with all fields (id, name, description, category, difficulty, etc.)
     - Define TongueTwister with sound targets and phonetic guidance
     - Define Strategy with focus area and example phrases
     - _Requirements: 1.3, 2.3, 3.2, 4.2, 5.2_
   - [ ] ⬜ Commit: git add . && git commit -m "Add Exercise, TongueTwister, Strategy domain entities"
   
-  - [ ] 2.2 Create UserProfile and PracticeSession entities
+  - [x] 2.2 Create UserProfile and PracticeSession entities
     - Define UserProfile with streak data and preferences reference
     - Define PracticeSession with timing and completion tracking
     - Define SessionExercise for individual exercise tracking
     - _Requirements: 6.1, 6.3, 6.4, 7.1, 7.2, 7.3_
   - [ ] ⬜ Commit: git add . && git commit -m "Add UserProfile and PracticeSession entities"
 
-  - [ ] 2.3 Create Progress and Achievement entities
+  - [x] 2.3 Create Progress and Achievement entities
     - Define ProgressRecord, StreakRecord, Achievement entities
     - Define CategoryProgress for category-specific tracking
     - _Requirements: 7.2, 7.3, 7.4, 7.7, 7.8_
   - [ ] ⬜ Commit: git add . && git commit -m "Add Progress and Achievement entities"
 
-  - [ ] 2.4 Create UserPreferences and AccessibilitySettings entities
+  - [x] 2.4 Create UserPreferences and AccessibilitySettings entities
     - Define UserPreferences with all configurable options
     - Define AccessibilitySettings for accessibility features
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 12.1, 12.2, 12.3, 12.7_
