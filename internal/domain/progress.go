@@ -330,3 +330,29 @@ var (
 func generateID() string {
 	return time.Now().Format("20060102150405")
 }
+
+// RecommendationRecord represents a recommendation that was shown to a user
+type RecommendationRecord struct {
+	ID            string    `json:"id"`
+	UserID        string    `json:"user_id"`
+	ExerciseID    string    `json:"exercise_id"`
+	CreatedAt     time.Time `json:"created_at"`
+	Viewed        bool      `json:"viewed"`
+	Clicked       bool      `json:"clicked"`
+}
+
+// RejectedRecommendation represents a recommendation that was rejected by a user
+type RejectedRecommendation struct {
+	ID         string    `json:"id"`
+	UserID     string    `json:"user_id"`
+	ExerciseID string    `json:"exercise_id"`
+	RejectedAt time.Time `json:"rejected_at"`
+}
+
+// AcceptedRecommendation represents a recommendation that was accepted by a user
+type AcceptedRecommendation struct {
+	ID         string    `json:"id"`
+	UserID     string    `json:"user_id"`
+	ExerciseID string    `json:"exercise_id"`
+	AcceptedAt time.Time `json:"accepted_at"`
+}
