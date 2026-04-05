@@ -69,7 +69,7 @@ This implementation plan creates a Go-based web application with server-side ren
     - ✅ Commit: git add . && git commit -m "Add PreferencesRepository interface and implementation"
 
 - [ ] 4. Implement service layer
-  - [ ] 4.1 Implement ExerciseService
+  - [x] 4.1 Implement ExerciseService
     - Create service with exercise retrieval and filtering logic
     - Add recommendation logic based on user performance
     - _Requirements: 1.5, 3.8, 10.1, 10.2, 10.3, 10.4_
