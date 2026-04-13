@@ -1,0 +1,19 @@
+# Kiro IDE files
+.kiro/
+
+# Developer docs (internal only)
+docs/ARCHITECTURE.md
+
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+/vendor/
+
+# Environment
+.env
+.env.*
