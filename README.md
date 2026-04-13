@@ -64,4 +64,4 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for a detailed developer guide.
 
 ## License
 
-MIT
+GNU General Public License v3.0 — see [LICENSE](LICENSE) for details.
