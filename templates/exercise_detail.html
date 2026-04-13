@@ -1,0 +1,233 @@
+{{define "content"}}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol role="list">
+    <li><a href="/exercises">Exercise Library</a></li>
+    <li aria-current="page">{{.Exercise.Name}}</li>
+  </ol>
+</nav>
+
+<article class="exercise-detail" aria-labelledby="exercise-title">
+  <header class="exercise-detail-header">
+    <h1 id="exercise-title">{{.Exercise.Name}}</h1>
+    <div class="exercise-meta-row">
+      <span class="badge badge-{{.Exercise.Difficulty}}">{{.Exercise.Difficulty}}</span>
+      {{if .Completed}}
+      <span class="badge badge-completed" aria-label="You have completed this exercise">&#10003; Completed</span>
+      {{end}}
+    </div>
+    <p class="exercise-description">{{.Exercise.Description}}</p>
+  </header>
+
+  {{/* Req 2.1 - Detailed instructions for mouth exercises */}}
+  <section class="exercise-instructions" aria-labelledby="instructions-heading">
+    <h2 id="instructions-heading">Instructions</h2>
+    <p>{{.Exercise.Instructions}}</p>
+  </section>
+
+  {{/* Req 2.2 - Visual/textual guidance on target articulation points */}}
+  {{if .ArticulationLabels}}
+  <section class="articulation-section" aria-labelledby="articulation-heading">
+    <h2 id="articulation-heading">Target Articulation Points</h2>
+    <ul class="articulation-list" role="list">
+      {{range .ArticulationLabels}}
+      <li class="articulation-item">
+        <span class="articulation-icon" aria-hidden="true">&#127919;</span>
+        <span>{{.}}</span>
+      </li>
+      {{end}}
+    </ul>
+    {{if .Exercise.PhoneticGuidance}}
+    <div class="phonetic-guidance" role="note" aria-label="Phonetic guidance">
+      <h3>Phonetic Guidance</h3>
+      <p>{{.Exercise.PhoneticGuidance}}</p>
+    </div>
+    {{end}}
+  </section>
+  {{end}}
+
+  {{/* Req 3.3 - Tongue twister text with phonetic pronunciation guidance */}}
+  {{if .IsTongueTwister}}
+  <section class="twister-section" aria-labelledby="twister-heading">
+    <h2 id="twister-heading">Tongue Twister</h2>
+
+    {{if .TargetSoundLabels}}
+    <div class="target-sounds" aria-label="Target sounds">
+      <h3>Target Sounds</h3>
+      <ul class="sound-list" role="list">
+        {{range .TargetSoundLabels}}
+        <li class="sound-badge">{{.}}</li>
+        {{end}}
+      </ul>
+    </div>
+    {{end}}
+
+    {{/* Req 3.4 - Highlight sounds in tongue twister display */}}
+    <div class="twister-text" aria-label="Tongue twister text">
+      <p id="twister-content" class="twister-phrase"
+         data-target-sounds="{{range .Exercise.TargetSounds}}{{.}} {{end}}">{{.Exercise.Instructions}}</p>
+    </div>
+
+    {{if .Exercise.PhoneticGuidance}}
+    <div class="phonetic-guidance" role="note" aria-label="Phonetic pronunciation guidance">
+      <h3>Pronunciation Guidance</h3>
+      <p>{{.Exercise.PhoneticGuidance}}</p>
+    </div>
+    {{end}}
+
+    {{/* Req 3.5 and 3.6 - Slow-speed and normal-speed audio playback */}}
+    <div class="audio-controls" aria-label="Audio playback options">
+      <h3>Audio Playback</h3>
+      <div class="audio-buttons">
+        <button class="btn btn-audio"
+                id="btn-slow"
+                aria-label="Play slow-speed audio">
+          Slow Speed
+        </button>
+        <button class="btn btn-audio"
+                id="btn-normal"
+                aria-label="Play normal-speed audio">
+          Normal Speed
+        </button>
+      </div>
+      <audio id="exercise-audio" aria-label="Exercise audio player" controls>
+        {{if .NormalAudioURL}}
+        <source src="{{.NormalAudioURL}}" type="audio/mpeg">
+        {{end}}
+        <p>Your browser does not support audio playback.</p>
+      </audio>
+    </div>
+  </section>
+  {{end}}
+
+  {{/* Req 2.4 - Timer showing recommended duration */}}
+  <section class="timer-section" aria-labelledby="timer-heading">
+    <h2 id="timer-heading">Exercise Timer</h2>
+    <div class="timer-display"
+         role="timer"
+         aria-live="polite"
+         aria-label="Exercise timer"
+         data-duration="{{.DurationSeconds}}">
+      <span id="timer-value" class="timer-value">{{.DurationSeconds}}</span>
+      <span class="timer-unit">seconds</span>
+    </div>
+    {{if .Exercise.Repetitions}}
+    <p class="repetitions-info">
+      <strong>Repetitions:</strong> {{.Exercise.Repetitions}}
+    </p>
+    {{end}}
+    <div class="timer-controls">
+      <button id="timer-start"
+              class="btn btn-primary"
+              aria-label="Start exercise timer">
+        Start Timer
+      </button>
+      <button id="timer-reset"
+              class="btn btn-outline"
+              aria-label="Reset exercise timer">
+        Reset
+      </button>
+    </div>
+    {{/* Req 2.5 - Audible signal when timer reaches zero */}}
+    <audio id="timer-beep" aria-label="Timer completion sound" preload="auto">
+      <source src="/static/beep.mp3" type="audio/mpeg">
+      <source src="/static/beep.ogg" type="audio/ogg">
+      <p>Audio not supported.</p>
+    </audio>
+  </section>
+
+  <section class="exercise-actions">
+    <form method="POST" action="/session/complete-exercise">
+      <input type="hidden" name="exercise_id" value="{{.Exercise.ID}}">
+      <button type="submit" class="btn btn-success" aria-label="Mark exercise as complete">
+        Mark as Complete
+      </button>
+    </form>
+    <a href="/exercises" class="btn btn-outline">Back to Library</a>
+  </section>
+</article>
+
+<script>
+(function() {
+  var duration = {{.DurationSeconds}};
+  var timeLeft = duration;
+  var timerInterval = null;
+
+  function updateDisplay(t) {
+    var el = document.getElementById('timer-value');
+    if (el) el.textContent = t;
+  }
+
+  function playBeep() {
+    var beep = document.getElementById('timer-beep');
+    if (beep) {
+      beep.currentTime = 0;
+      beep.play().catch(function() {});
+    }
+  }
+
+  function startTimer() {
+    if (timerInterval) return;
+    document.getElementById('timer-start').disabled = true;
+    timerInterval = setInterval(function() {
+      timeLeft--;
+      updateDisplay(timeLeft);
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        playBeep();
+        document.getElementById('timer-start').disabled = false;
+      }
+    }, 1000);
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timeLeft = duration;
+    updateDisplay(timeLeft);
+    document.getElementById('timer-start').disabled = false;
+  }
+
+  document.getElementById('timer-start').addEventListener('click', startTimer);
+  document.getElementById('timer-reset').addEventListener('click', resetTimer);
+
+  {{if .IsTongueTwister}}
+  var slowBtn = document.getElementById('btn-slow');
+  var normalBtn = document.getElementById('btn-normal');
+  var audioEl = document.getElementById('exercise-audio');
+
+  if (slowBtn) {
+    slowBtn.addEventListener('click', function() {
+      if (audioEl) {
+        audioEl.playbackRate = 0.5;
+        audioEl.play().catch(function() {});
+      }
+    });
+  }
+  if (normalBtn) {
+    normalBtn.addEventListener('click', function() {
+      if (audioEl) {
+        audioEl.playbackRate = 1.0;
+        audioEl.play().catch(function() {});
+      }
+    });
+  }
+
+  // Req 3.4 - Highlight target sounds in the twister text
+  var twisterEl = document.getElementById('twister-content');
+  if (twisterEl) {
+    var soundsAttr = twisterEl.getAttribute('data-target-sounds') || '';
+    var sounds = soundsAttr.trim().split(/\s+/).filter(Boolean);
+    if (sounds.length > 0) {
+      var text = twisterEl.textContent;
+      sounds.forEach(function(sound) {
+        var re = new RegExp('(' + sound + ')', 'gi');
+        text = text.replace(re, '<mark class="sound-highlight" aria-label="target sound">$1</mark>');
+      });
+      twisterEl.innerHTML = text;
+    }
+  }
+  {{end}}
+})();
+</script>
+{{end}}

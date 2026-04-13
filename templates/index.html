@@ -1,0 +1,25 @@
+{{define "content"}}
+<section class="hero" aria-labelledby="hero-heading">
+  <h1 id="hero-heading">Welcome to Speech Practice</h1>
+  <p class="hero-subtitle">Improve your speech clarity and fluency through daily exercises.</p>
+  <a href="/exercises" class="btn btn-primary">Browse Exercise Library</a>
+  <a href="/session/start" class="btn btn-secondary">Start Practice Session</a>
+</section>
+
+{{if .RecentExercises}}
+<section class="section" aria-labelledby="recent-heading">
+  <h2 id="recent-heading">Recent Exercises</h2>
+  <ul class="exercise-list" role="list">
+    {{range .RecentExercises}}
+    <li class="exercise-card">
+      <a href="/exercises/{{.ID}}" class="exercise-card-link">
+        <span class="exercise-name">{{.Name}}</span>
+        <span class="exercise-category badge">{{.Category}}</span>
+        <span class="exercise-difficulty badge badge-{{.Difficulty}}">{{.Difficulty}}</span>
+      </a>
+    </li>
+    {{end}}
+  </ul>
+</section>
+{{end}}
+{{end}}

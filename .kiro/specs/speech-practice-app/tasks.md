@@ -111,7 +111,7 @@ This implementation plan creates a Go-based web application with server-side ren
     - ✅ Committed: Add router and base handlers
     - _Requirements: 11.1, 11.2_
     
-  - [ ] 5.2 Implement exercise library handlers
+  - [-] 5.2 Implement exercise library handlers
     - Create handler for exercise library display
     - Create handler for exercise category filtering
     - Create handler for exercise detail display

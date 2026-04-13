@@ -1,0 +1,40 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Exercise Library</h1>
+  <p class="page-subtitle">Browse all exercises organized by category.</p>
+</div>
+
+{{range .Categories}}
+<section class="category-section" aria-labelledby="cat-{{.Slug}}">
+  <div class="category-header">
+    <h2 id="cat-{{.Slug}}">
+      <a href="/exercises/{{.Slug}}">{{.Label}}</a>
+    </h2>
+    <p class="category-desc">{{.Description}}</p>
+    <span class="category-count">{{.Count}} exercises</span>
+  </div>
+
+  {{if .Exercises}}
+  <ul class="exercise-grid" role="list">
+    {{range .Exercises}}
+    <li class="exercise-card {{if index $.CompletedIDs .ID}}exercise-card--completed{{end}}">
+      <a href="/exercises/{{.ID}}" class="exercise-card-link" aria-label="{{.Name}}{{if index $.CompletedIDs .ID}} (completed){{end}}">
+        <div class="exercise-card-body">
+          <h3 class="exercise-name">{{.Name}}</h3>
+          <p class="exercise-desc">{{.Description}}</p>
+        </div>
+        <div class="exercise-card-meta">
+          <span class="badge badge-{{.Difficulty}}">{{.Difficulty}}</span>
+          {{if index $.CompletedIDs .ID}}
+          <span class="badge badge-completed" aria-label="Completed">✓ Done</span>
+          {{end}}
+        </div>
+      </a>
+    </li>
+    {{end}}
+  </ul>
+  <a href="/exercises/{{.Slug}}" class="btn btn-outline">View all {{.Label}}</a>
+  {{end}}
+</section>
+{{end}}
+{{end}}
