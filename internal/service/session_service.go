@@ -288,7 +288,7 @@ func (s *SessionService) recordProgress(session *domain.PracticeSession) error {
 	date := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
 
 	// Create progress record
-	record := domain.NewProgressRecord(session.UserID, domain.ExerciseCategoryMouthExercise)
+	record := domain.NewProgressRecord(session.UserID, domain.CategoryMouthExercise)
 	record.Date = date
 	record.ExerciseCount = session.GetExerciseCount()
 	record.Duration = session.TotalDuration
@@ -407,7 +407,7 @@ func (s *SessionService) GetDefaultDuration(exerciseID string) (time.Duration, e
 	if err != nil {
 		return 0, err
 	}
-	return time.Duration(exercise.DefaultDurationSeconds) * time.Second, nil
+	return exercise.Duration, nil
 }
 
 // generateID generates a unique ID

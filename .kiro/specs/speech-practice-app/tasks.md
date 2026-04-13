@@ -108,43 +108,43 @@ This implementation plan creates a Go-based web application with server-side ren
     - Set up HTTP mux with routes for all pages
     - Create base handler with common functionality
     - Add middleware for logging and error handling
+    - Make Commit after finishing task: git add . && git commit -m "Add router and base handlers"
     - _Requirements: 11.1, 11.2_
-    - ✅ Commit: git add . && git commit -m "Add router and base handlers"
-
+    
   - [ ] 5.2 Implement exercise library handlers
     - Create handler for exercise library display
     - Create handler for exercise category filtering
     - Create handler for exercise detail display
     - _Requirements: 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 3.3, 3.4, 3.5, 3.6_
-    - ✅ Commit: git add . && git commit -m "Add exercise library handlers"
+    - Make Commit after finishing task: git add . && git commit -m "Add exercise library handlers"
 
   - [ ] 5.3 Implement session handlers
     - Create handler for starting new sessions
     - Create handler for exercise completion
     - Create handler for session completion and summary
     - Create handler for resuming saved sessions
+    - Make Commit after finishing task: git add . && git commit -m "Add session handlers"
     - _Requirements: 6.1, 6.2, 6.3, 6.6, 6.7, 6.8_
-    - ✅ Commit: git add . && git commit -m "Add session handlers"
 
   - [ ] 5.4 Implement progress handlers
     - Create handler for progress display
     - Create handler for streak display
     - Create handler for weekly calendar
+    - Make Commit after finishing task: git add . && git commit -m "Add progress handlers"
     - _Requirements: 7.2, 7.3, 7.4, 7.5, 7.6_
-    - ✅ Commit: git add . && git commit -m "Add progress handlers"
 
   - [ ] 5.5 Implement preferences handlers
     - Create handler for preferences display
     - Create handler for preferences update
     - Create handler for data export
+    - Make Commit after finishing task: git add . && git commit -m "Add preferences handlers"
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7_
-    - ✅ Commit: git add . && git commit -m "Add preferences handlers"
 
   - [ ] 5.6 Implement recommendation handlers
     - Create handler for daily recommendations
     - Create handler for accepting/rejecting recommendations
+    - Make Commit after finishing task: git add . && git commit -m "Add recommendation handlers"
     - _Requirements: 10.4, 10.6_
-    - ✅ Commit: git add . && git commit -m "Add recommendation handlers"
 
 - [ ] 6. Create templates and UI
   - [ ] 6.1 Create base template with layout
