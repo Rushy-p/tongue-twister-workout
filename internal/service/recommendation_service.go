@@ -52,6 +52,9 @@ func NewRecommendationService(
 	}
 }
 
+// RecommendationType indicates why a recommendation was made
+type RecommendationType string
+
 // Recommendation types
 const (
 	RecommendationTypeLowCompletion RecommendationType = "low_completion"

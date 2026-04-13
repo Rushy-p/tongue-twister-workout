@@ -354,24 +354,6 @@ func (s *ExerciseService) getRecentSessions(sessions []domain.PracticeSession, d
 	return recent
 }
 
-// Recommendation represents a personalized exercise recommendation
-type Recommendation struct {
-	Exercise        *domain.Exercise
-	Reason          string
-	Priority        int
-	RecommendationType RecommendationType
-}
-
-// RecommendationType indicates why a recommendation was made
-type RecommendationType string
-
-const (
-	RecommendationLowCompletion  RecommendationType = "low_completion"
-	RecommendationStrugglingSound RecommendationType = "struggling_sound"
-	RecommendationStreakMilestone RecommendationType = "streak_milestone"
-	RecommendationDailyPractice   RecommendationType = "daily_practice"
-)
-
 // GetRecommendations generates personalized exercise recommendations
 // Implements Requirements 10.2, 10.3, 10.4
 func (s *ExerciseService) GetRecommendations(userID string, limit int) ([]Recommendation, error) {
@@ -457,7 +439,7 @@ func (s *ExerciseService) getRecommendationsForCategory(category domain.Exercise
 			Exercise:        &e,
 			Reason:          reason,
 			Priority:        priority,
-			RecommendationType: RecommendationLowCompletion,
+			RecommendationType: RecommendationTypeLowCompletion,
 		})
 	}
 
@@ -495,7 +477,7 @@ func (s *ExerciseService) getRecommendationsForSound(sound domain.SoundTarget, s
 			Exercise:        &e,
 			Reason:          reason,
 			Priority:        priority,
-			RecommendationType: RecommendationStrugglingSound,
+			RecommendationType: RecommendationTypeStrugglingSound,
 		})
 	}
 
@@ -536,7 +518,7 @@ func (s *ExerciseService) getGeneralRecommendations(userID string, limit int, pe
 			Exercise:        &e,
 			Reason:          reason,
 			Priority:        priority,
-			RecommendationType: RecommendationDailyPractice,
+			RecommendationType: RecommendationTypeDailyPractice,
 		})
 
 		if len(recommendations) >= limit {
