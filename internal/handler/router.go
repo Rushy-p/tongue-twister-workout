@@ -88,6 +88,7 @@ func (r *Router) registerRoutes() {
 	// Preferences routes
 	r.mux.HandleFunc("/preferences", r.preferencesHandler.Index)
 	r.mux.HandleFunc("/preferences/update", r.preferencesHandler.Update)
+	r.mux.HandleFunc("/preferences/export", r.preferencesHandler.Export)
 
 	// Recommendations routes
 	r.mux.HandleFunc("/recommendations", r.exerciseHandler.Recommendations)
