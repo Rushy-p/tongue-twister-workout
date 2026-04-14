@@ -4,6 +4,7 @@
   <p class="page-subtitle">Great work! Here's a summary of your practice session.</p>
 </div>
 
+<!-- Stats summary (Req 6.2, 6.6) -->
 <section class="section session-summary" aria-labelledby="summary-heading">
   <h2 id="summary-heading">Session Summary</h2>
   <dl class="session-stats">
@@ -46,17 +47,20 @@
   <ul class="exercise-list" role="list">
     {{range .Session.Exercises}}
     <li class="exercise-card exercise-card--completed">
-      <span class="exercise-name">{{.ExerciseName}}</span>
-      <span class="badge badge-completed" aria-label="Completed">✓ Done</span>
+      <div class="exercise-card-link" style="display:flex; align-items:center; justify-content:space-between; padding: var(--space-3) var(--space-4);">
+        <span class="exercise-name">{{.ExerciseName}}</span>
+        <span class="badge badge-completed" aria-label="Completed">✓ Done</span>
+      </div>
     </li>
     {{end}}
   </ul>
 </section>
 {{end}}
 
+<!-- Next steps (Req 6.6) -->
 <section class="section session-actions" aria-label="Next steps">
-  <a href="/session/start" class="btn btn-primary">Start Another Session</a>
-  <a href="/progress" class="btn btn-outline" style="margin-left: 1rem;">View Progress</a>
-  <a href="/exercises" class="btn btn-outline" style="margin-left: 1rem;">Browse Exercises</a>
+  <a href="/session/start" class="btn btn-primary btn-large">Start Another Session</a>
+  <a href="/progress" class="btn btn-outline">View Progress</a>
+  <a href="/exercises" class="btn btn-outline">Browse Exercises</a>
 </section>
 {{end}}
