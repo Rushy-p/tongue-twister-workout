@@ -1374,3 +1374,222 @@ select:focus {
 }
 
 /* Phonetic guidance (Req 3.3) */
+.twister-section {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.twister-section h2 {
+  margin-bottom: var(--space-4);
+}
+
+.target-sounds {
+  margin-bottom: var(--space-4);
+}
+
+.target-sounds h3 {
+  font-size: var(--font-size-base);
+  margin-bottom: var(--space-2);
+}
+
+.sound-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.sound-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  background-color: rgba(79, 70, 229, 0.08);
+  border: 1px solid rgba(79, 70, 229, 0.25);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Twister text display (Req 3.4) */
+.twister-text {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.twister-phrase {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Highlighted target sounds (Req 3.4) */
+.sound-highlight {
+  background-color: #FEF3C7;
+  color: #92400E;
+  border-radius: var(--radius-sm);
+  padding: 0 2px;
+  font-style: normal;
+}
+
+/* Audio controls (Req 3.5, 3.6) */
+.audio-controls {
+  margin-top: var(--space-4);
+}
+
+.audio-controls h3 {
+  font-size: var(--font-size-base);
+  margin-bottom: var(--space-3);
+}
+
+.audio-buttons {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+
+.btn-audio {
+  background-color: var(--surface);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-audio:hover {
+  background-color: rgba(79, 70, 229, 0.06);
+  color: var(--primary-dark);
+}
+
+.btn-audio:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Timer section (Req 2.4) */
+.timer-section {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.timer-section h2 {
+  margin-bottom: var(--space-6);
+}
+
+.timer-display {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.timer-value {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-unit {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+
+.repetitions-info {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  margin-bottom: var(--space-4);
+}
+
+/* Exercise actions (Mark as Complete, Back) */
+.exercise-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+}
+
+.exercise-actions form {
+  background: none;
+  border: none;
+  padding: 0;
+  max-width: none;
+}
+
+/* Success button variant */
+.btn-success {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #059669;
+  color: white;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive adjustments for exercise templates */
+@media (max-width: 640px) {
+  .exercise-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timer-value {
+    font-size: var(--font-size-3xl);
+  }
+
+  .twister-phrase {
+    font-size: var(--font-size-lg);
+  }
+
+  .articulation-list {
+    flex-direction: column;
+  }
+
+  .exercise-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exercise-actions .btn,
+  .exercise-actions form {
+    width: 100%;
+  }
+
+  .exercise-actions form .btn {
+    width: 100%;
+  }
+}
