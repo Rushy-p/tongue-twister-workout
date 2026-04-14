@@ -1,0 +1,62 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Session Complete!</h1>
+  <p class="page-subtitle">Great work! Here's a summary of your practice session.</p>
+</div>
+
+<section class="section session-summary" aria-labelledby="summary-heading">
+  <h2 id="summary-heading">Session Summary</h2>
+  <dl class="session-stats">
+    <div class="stat-item">
+      <dt>Exercises Completed</dt>
+      <dd class="stat-value">{{.ExerciseCount}}</dd>
+    </div>
+    <div class="stat-item">
+      <dt>Total Time</dt>
+      <dd class="stat-value">{{.DurationMinutes}}m {{.DurationSeconds}}s</dd>
+    </div>
+    {{if gt .Stats.TotalRepetitions 0}}
+    <div class="stat-item">
+      <dt>Total Repetitions</dt>
+      <dd class="stat-value">{{.Stats.TotalRepetitions}}</dd>
+    </div>
+    {{end}}
+    {{if gt .Stats.AverageScore 0}}
+    <div class="stat-item">
+      <dt>Average Score</dt>
+      <dd class="stat-value">{{.Stats.AverageScore}}</dd>
+    </div>
+    {{end}}
+    <div class="stat-item">
+      <dt>Started</dt>
+      <dd>{{.Session.StartTime.Format "Jan 2, 2006 3:04 PM"}}</dd>
+    </div>
+    {{if .Session.EndTime}}
+    <div class="stat-item">
+      <dt>Ended</dt>
+      <dd>{{.Session.EndTime.Format "Jan 2, 2006 3:04 PM"}}</dd>
+    </div>
+    {{end}}
+  </dl>
+</section>
+
+{{if .Session.Exercises}}
+<section class="section" aria-labelledby="exercises-done-heading">
+  <h2 id="exercises-done-heading">Exercises Completed</h2>
+  <ul class="exercise-list" role="list">
+    {{range .Session.Exercises}}
+    <li class="exercise-card exercise-card--completed">
+      <span class="exercise-name">{{.ExerciseName}}</span>
+      <span class="badge badge-completed" aria-label="Completed">✓ Done</span>
+    </li>
+    {{end}}
+  </ul>
+</section>
+{{end}}
+
+<section class="section session-actions" aria-label="Next steps">
+  <a href="/session/start" class="btn btn-primary">Start Another Session</a>
+  <a href="/progress" class="btn btn-outline" style="margin-left: 1rem;">View Progress</a>
+  <a href="/exercises" class="btn btn-outline" style="margin-left: 1rem;">Browse Exercises</a>
+</section>
+{{end}}

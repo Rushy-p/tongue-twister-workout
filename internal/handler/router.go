@@ -76,6 +76,7 @@ func (r *Router) registerRoutes() {
 	r.mux.HandleFunc("/session", r.sessionHandler.Index)
 	r.mux.HandleFunc("/session/start", r.sessionHandler.Start)
 	r.mux.HandleFunc("/session/complete", r.sessionHandler.Complete)
+	r.mux.HandleFunc("/session/exercise/complete", r.sessionHandler.CompleteExercise)
 	r.mux.HandleFunc("/session/save", r.sessionHandler.Save)
 	r.mux.HandleFunc("/session/resume/", r.sessionHandler.Resume)
 

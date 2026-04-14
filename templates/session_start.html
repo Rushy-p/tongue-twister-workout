@@ -1,0 +1,32 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Start Practice Session</h1>
+  <p class="page-subtitle">Ready to practice? Let's get started.</p>
+</div>
+
+{{if .HasIncomplete}}
+<section class="section alert alert-info" aria-labelledby="resume-prompt-heading" role="alert">
+  <h2 id="resume-prompt-heading">You have saved sessions</h2>
+  <p>You have incomplete sessions from a previous visit. Would you like to resume one?</p>
+  <ul class="session-list" role="list">
+    {{range .IncompleteSessions}}
+    <li class="session-card">
+      <div class="session-card-info">
+        <span class="session-date">Started: {{.StartTime.Format "Jan 2, 2006 3:04 PM"}}</span>
+        <span class="session-exercises">{{.GetExerciseCount}} exercise(s) completed</span>
+      </div>
+      <a href="/session/resume/{{.ID}}" class="btn btn-primary" aria-label="Resume session from {{.StartTime.Format "Jan 2"}}">Resume This Session</a>
+    </li>
+    {{end}}
+  </ul>
+  <p>Or start a brand new session below.</p>
+</section>
+{{end}}
+
+<section class="section" aria-labelledby="new-session-heading">
+  <h2 id="new-session-heading">New Session</h2>
+  <form method="POST" action="/session/start">
+    <button type="submit" class="btn btn-primary btn-large">Start New Session</button>
+  </form>
+</section>
+{{end}}

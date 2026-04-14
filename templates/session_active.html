@@ -1,0 +1,66 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Session in Progress</h1>
+  <p class="page-subtitle">Session started at {{.StartTime.Format "3:04 PM"}}.</p>
+</div>
+
+<section class="section session-status" aria-labelledby="session-status-heading">
+  <h2 id="session-status-heading">Current Session</h2>
+  <dl class="session-stats">
+    <div class="stat-item">
+      <dt>Session ID</dt>
+      <dd><code>{{.SessionID}}</code></dd>
+    </div>
+    <div class="stat-item">
+      <dt>Exercises Completed</dt>
+      <dd>{{.Session.GetExerciseCount}}</dd>
+    </div>
+    <div class="stat-item">
+      <dt>Status</dt>
+      <dd><span class="badge badge-in_progress">In Progress</span></dd>
+    </div>
+  </dl>
+</section>
+
+{{if .Session.Exercises}}
+<section class="section" aria-labelledby="completed-exercises-heading">
+  <h2 id="completed-exercises-heading">Completed Exercises</h2>
+  <ul class="exercise-list" role="list">
+    {{range .Session.Exercises}}
+    <li class="exercise-card exercise-card--completed">
+      <span class="exercise-name">{{.ExerciseName}}</span>
+      <span class="badge badge-completed" aria-label="Completed">✓ Done</span>
+    </li>
+    {{end}}
+  </ul>
+</section>
+{{end}}
+
+<section class="section" aria-labelledby="add-exercise-heading">
+  <h2 id="add-exercise-heading">Add an Exercise</h2>
+  <p>Go to the <a href="/exercises">exercise library</a> to pick an exercise, then come back to record it.</p>
+  <form method="POST" action="/session/exercise/complete" aria-label="Record exercise completion">
+    <input type="hidden" name="session_id" value="{{.SessionID}}">
+    <div class="form-group">
+      <label for="exercise_id">Exercise ID</label>
+      <input type="text" id="exercise_id" name="exercise_id" class="form-control" placeholder="e.g. me-001" required aria-required="true">
+    </div>
+    <div class="form-group">
+      <label for="notes">Notes (optional)</label>
+      <input type="text" id="notes" name="notes" class="form-control" placeholder="How did it go?">
+    </div>
+    <button type="submit" class="btn btn-secondary">Record Exercise</button>
+  </form>
+</section>
+
+<section class="section session-actions" aria-label="Session actions">
+  <form method="POST" action="/session/complete" style="display:inline;">
+    <input type="hidden" name="session_id" value="{{.SessionID}}">
+    <button type="submit" class="btn btn-primary">Complete Session</button>
+  </form>
+  <form method="POST" action="/session/save" style="display:inline; margin-left: 1rem;">
+    <input type="hidden" name="session_id" value="{{.SessionID}}">
+    <button type="submit" class="btn btn-outline">Save &amp; Exit</button>
+  </form>
+</section>
+{{end}}

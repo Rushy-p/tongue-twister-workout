@@ -1,0 +1,33 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Practice Session</h1>
+  <p class="page-subtitle">Start a new session or resume a saved one.</p>
+</div>
+
+{{if .HasIncomplete}}
+<section class="section" aria-labelledby="resume-heading">
+  <h2 id="resume-heading">Resume a Saved Session</h2>
+  <p>You have incomplete sessions. Would you like to resume one?</p>
+  <ul class="session-list" role="list">
+    {{range .IncompleteSessions}}
+    <li class="session-card">
+      <div class="session-card-info">
+        <span class="session-date">Started: {{.StartTime.Format "Jan 2, 2006 3:04 PM"}}</span>
+        <span class="session-exercises">{{.GetExerciseCount}} exercise(s) completed</span>
+        <span class="badge badge-{{.Status}}">{{.Status}}</span>
+      </div>
+      <a href="/session/resume/{{.ID}}" class="btn btn-primary" aria-label="Resume session from {{.StartTime.Format "Jan 2"}}">Resume</a>
+    </li>
+    {{end}}
+  </ul>
+</section>
+{{end}}
+
+<section class="section" aria-labelledby="new-session-heading">
+  <h2 id="new-session-heading">Start a New Session</h2>
+  <p>Begin a fresh practice session. Your progress will be tracked automatically.</p>
+  <form method="POST" action="/session/start">
+    <button type="submit" class="btn btn-primary btn-large">Start New Session</button>
+  </form>
+</section>
+{{end}}
