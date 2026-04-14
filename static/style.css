@@ -1593,3 +1593,23 @@ select:focus {
     width: 100%;
   }
 }
+.phonetic-guidance {
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.phonetic-guidance h3 {
+  color: #92400E;
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-base);
+}
+
+.phonetic-guidance p {
+  color: #78350F;
+  margin-bottom: 0;
+}
+
+/* Tongue twister section (Req 3.3, 3.4) */
