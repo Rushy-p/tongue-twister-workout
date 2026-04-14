@@ -1118,3 +1118,181 @@ select:focus {
     padding: var(--space-6) var(--space-4);
   }
 }
+
+/* ============================================================
+   Exercise Library Templates (Task 6.2)
+   ============================================================ */
+
+/* Breadcrumb navigation */
+.breadcrumb {
+  margin-bottom: var(--space-6);
+}
+
+.breadcrumb ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.breadcrumb li + li::before {
+  content: "›";
+  margin-right: var(--space-2);
+  color: var(--text-muted);
+}
+
+.breadcrumb li a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb li a:hover {
+  color: var(--primary-dark);
+}
+
+.breadcrumb li[aria-current="page"] {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Category section on exercise library index */
+.category-section {
+  margin-bottom: var(--space-12);
+}
+
+.category-header {
+  margin-bottom: var(--space-4);
+}
+
+.category-header h2 {
+  margin-bottom: var(--space-1);
+}
+
+.category-header h2 a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.category-header h2 a:hover {
+  color: var(--primary);
+}
+
+.category-desc {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.category-count {
+  display: inline-block;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Exercise grid */
+.exercise-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+  padding: 0;
+  margin: 0 0 var(--space-4) 0;
+}
+
+/* Exercise card */
+.exercise-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+  overflow: hidden;
+}
+
+.exercise-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-light);
+}
+
+/* Completed exercise card — green left border + subtle tint (Req 1.5) */
+.exercise-card--completed {
+  border-left: 4px solid var(--secondary);
+  background-color: #F0FDF4;
+}
+
+.exercise-card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-4) var(--space-6);
+  text-decoration: none;
+  color: inherit;
+}
+
+.exercise-card-link:hover {
+  color: inherit;
+}
+
+.exercise-card-body {
+  flex: 1;
+  margin-bottom: var(--space-3);
+}
+
+.exercise-name {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.exercise-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+  line-height: 1.5;
+}
+
+.exercise-phonetic {
+  font-size: var(--font-size-sm);
+  color: var(--primary);
+  margin-bottom: 0;
+}
+
+.exercise-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+/* Duration badge */
+.badge-duration {
+  color: var(--text-secondary);
+  background-color: var(--background);
+  border-color: var(--border);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  color: var(--text-muted);
+  font-size: var(--font-size-lg);
+  background-color: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+}
+
+/* ============================================================
