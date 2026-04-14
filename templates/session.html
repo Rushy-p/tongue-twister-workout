@@ -5,7 +5,7 @@
 </div>
 
 {{if .HasIncomplete}}
-<section class="section" aria-labelledby="resume-heading">
+<section class="section alert alert-info" aria-labelledby="resume-heading" role="region">
   <h2 id="resume-heading">Resume a Saved Session</h2>
   <p>You have incomplete sessions. Would you like to resume one?</p>
   <ul class="session-list" role="list">
@@ -14,9 +14,9 @@
       <div class="session-card-info">
         <span class="session-date">Started: {{.StartTime.Format "Jan 2, 2006 3:04 PM"}}</span>
         <span class="session-exercises">{{.GetExerciseCount}} exercise(s) completed</span>
-        <span class="badge badge-{{.Status}}">{{.Status}}</span>
+        <span class="badge badge-{{.Status}}" aria-label="Status: {{.Status}}">{{.Status}}</span>
       </div>
-      <a href="/session/resume/{{.ID}}" class="btn btn-primary" aria-label="Resume session from {{.StartTime.Format "Jan 2"}}">Resume</a>
+      <a href="/session/resume/{{.ID}}" class="btn btn-primary" aria-label="Resume session from {{.StartTime.Format "Jan 2, 2006"}}">Resume</a>
     </li>
     {{end}}
   </ul>

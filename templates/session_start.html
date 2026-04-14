@@ -5,7 +5,7 @@
 </div>
 
 {{if .HasIncomplete}}
-<section class="section alert alert-info" aria-labelledby="resume-prompt-heading" role="alert">
+<section class="section alert alert-info" aria-labelledby="resume-prompt-heading" role="region">
   <h2 id="resume-prompt-heading">You have saved sessions</h2>
   <p>You have incomplete sessions from a previous visit. Would you like to resume one?</p>
   <ul class="session-list" role="list">
@@ -14,8 +14,9 @@
       <div class="session-card-info">
         <span class="session-date">Started: {{.StartTime.Format "Jan 2, 2006 3:04 PM"}}</span>
         <span class="session-exercises">{{.GetExerciseCount}} exercise(s) completed</span>
+        <span class="badge badge-{{.Status}}" aria-label="Status: {{.Status}}">{{.Status}}</span>
       </div>
-      <a href="/session/resume/{{.ID}}" class="btn btn-primary" aria-label="Resume session from {{.StartTime.Format "Jan 2"}}">Resume This Session</a>
+      <a href="/session/resume/{{.ID}}" class="btn btn-primary" aria-label="Resume session from {{.StartTime.Format "Jan 2, 2006"}}">Resume</a>
     </li>
     {{end}}
   </ul>
@@ -25,6 +26,7 @@
 
 <section class="section" aria-labelledby="new-session-heading">
   <h2 id="new-session-heading">New Session</h2>
+  <p>Begin a fresh practice session. Your progress will be tracked automatically.</p>
   <form method="POST" action="/session/start">
     <button type="submit" class="btn btn-primary btn-large">Start New Session</button>
   </form>

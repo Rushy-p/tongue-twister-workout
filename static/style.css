@@ -1613,3 +1613,189 @@ select:focus {
 }
 
 /* Tongue twister section (Req 3.3, 3.4) */
+
+/* ============================================================
+   Session Templates (Task 6.3)
+   ============================================================ */
+
+/* Alert info variant */
+.alert-info {
+  color: #1E40AF;
+  background-color: #EFF6FF;
+  border-color: #3B82F6;
+}
+
+/* form-control alias for form-input */
+.form-control {
+  width: 100%;
+  padding: var(--space-3);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--surface);
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+/* Large button variant */
+.btn-large {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--font-size-lg);
+}
+
+/* Session list — list of session cards */
+.session-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Session card — flex row with info + action */
+.session-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
+  flex-wrap: wrap;
+}
+
+/* Left side info */
+.session-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.session-date {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.session-exercises {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* Status badges for session states */
+.badge-in_progress {
+  color: #1D4ED8;
+  background-color: #EFF6FF;
+  border-color: #93C5FD;
+}
+
+.badge-in_progress::before {
+  content: "▶";
+  font-size: 8px;
+}
+
+.badge-saved {
+  color: #D97706;
+  background-color: #FFFBEB;
+  border-color: #FCD34D;
+}
+
+.badge-saved::before {
+  content: "◉";
+  font-size: 8px;
+}
+
+/* Session status section (active session) */
+.session-status {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+/* Session summary section (completed session) */
+.session-summary {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+/* Session actions row */
+.session-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.session-actions form {
+  background: none;
+  border: none;
+  padding: 0;
+  max-width: none;
+}
+
+/* Live session timer */
+.session-timer {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.session-timer-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: var(--space-2);
+}
+
+/* Exercise list in session views */
+.exercise-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Responsive adjustments for session templates */
+@media (max-width: 640px) {
+  .session-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .session-card .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .session-timer {
+    font-size: var(--font-size-3xl);
+  }
+
+  .session-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .session-actions .btn,
+  .session-actions form .btn {
+    width: 100%;
+  }
+}
