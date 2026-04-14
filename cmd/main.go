@@ -17,12 +17,14 @@ func main() {
 	sessionRepo := infrastructure.NewInMemorySessionRepository()
 	progressRepo := infrastructure.NewInMemoryProgressRepository()
 	preferencesRepo := infrastructure.NewInMemoryPreferencesRepository()
+	recommendationRepo := infrastructure.NewInMemoryRecommendationRepository()
 
 	// Initialize services
 	exerciseService := service.NewExerciseService(exerciseRepo, progressRepo, sessionRepo)
 	sessionService := service.NewSessionService(sessionRepo, progressRepo, exerciseRepo)
 	progressService := service.NewProgressService(progressRepo, sessionRepo, exerciseRepo)
 	preferencesService := service.NewPreferencesService(preferencesRepo)
+	recommendationService := service.NewRecommendationService(exerciseRepo, progressRepo, sessionRepo, recommendationRepo)
 
 	// Create router with all services
 	router := handler.NewRouter(
@@ -30,6 +32,7 @@ func main() {
 		sessionService,
 		progressService,
 		preferencesService,
+		recommendationService,
 	)
 
 	// Get port from environment or use default

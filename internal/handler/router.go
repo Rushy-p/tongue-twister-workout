@@ -8,12 +8,13 @@ import (
 
 // Router handles HTTP routing
 type Router struct {
-	mux              *http.ServeMux
-	baseHandler      *BaseHandler
-	exerciseHandler  *ExerciseHandler
-	sessionHandler   *SessionHandler
-	progressHandler  *ProgressHandler
-	preferencesHandler *PreferencesHandler
+	mux                    *http.ServeMux
+	baseHandler            *BaseHandler
+	exerciseHandler        *ExerciseHandler
+	sessionHandler         *SessionHandler
+	progressHandler        *ProgressHandler
+	preferencesHandler     *PreferencesHandler
+	recommendationsHandler *RecommendationsHandler
 }
 
 // NewRouter creates a new Router with all handlers
@@ -22,6 +23,7 @@ func NewRouter(
 	sessionService *service.SessionService,
 	progressService *service.ProgressService,
 	preferencesService *service.PreferencesService,
+	recommendationService *service.RecommendationService,
 ) *Router {
 	// Create base handler
 	baseHandler := NewBaseHandler(
@@ -36,15 +38,17 @@ func NewRouter(
 	sessionHandler := NewSessionHandler(baseHandler, sessionService)
 	progressHandler := NewProgressHandler(baseHandler, progressService)
 	preferencesHandler := NewPreferencesHandler(baseHandler, preferencesService)
+	recommendationsHandler := NewRecommendationsHandler(baseHandler, recommendationService)
 
 	// Create router
 	r := &Router{
-		mux:                http.NewServeMux(),
-		baseHandler:        baseHandler,
-		exerciseHandler:    exerciseHandler,
-		sessionHandler:     sessionHandler,
-		progressHandler:    progressHandler,
-		preferencesHandler: preferencesHandler,
+		mux:                    http.NewServeMux(),
+		baseHandler:            baseHandler,
+		exerciseHandler:        exerciseHandler,
+		sessionHandler:         sessionHandler,
+		progressHandler:        progressHandler,
+		preferencesHandler:     preferencesHandler,
+		recommendationsHandler: recommendationsHandler,
 	}
 
 	// Register routes
@@ -91,7 +95,9 @@ func (r *Router) registerRoutes() {
 	r.mux.HandleFunc("/preferences/export", r.preferencesHandler.Export)
 
 	// Recommendations routes
-	r.mux.HandleFunc("/recommendations", r.exerciseHandler.Recommendations)
+	r.mux.HandleFunc("/recommendations", r.recommendationsHandler.Index)
+	r.mux.HandleFunc("/recommendations/accept", r.recommendationsHandler.Accept)
+	r.mux.HandleFunc("/recommendations/reject", r.recommendationsHandler.Reject)
 }
 
 // Handler returns the HTTP handler

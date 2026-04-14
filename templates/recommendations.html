@@ -1,7 +1,71 @@
 {{define "content"}}
 <div class="page-header">
-  <h1>Recommendations</h1>
+  <h1>Daily Recommendations</h1>
 </div>
-<p class="empty-state">{{.Message}}</p>
+
+{{if .Error}}
+<p class="error-state">{{.Error}}</p>
 <a href="/exercises" class="btn btn-primary">Browse Exercise Library</a>
+{{else if .Summary}}
+
+<div class="recommendations-summary">
+  <div class="summary-stats">
+    <div class="stat">
+      <span class="stat-value">{{.Summary.CurrentStreak}}</span>
+      <span class="stat-label">Day Streak</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{.Summary.CompletedExercises}}</span>
+      <span class="stat-label">Completed</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{printf "%.0f" .Summary.CompletionRate}}%</span>
+      <span class="stat-label">Completion Rate</span>
+    </div>
+  </div>
+
+  {{if .Summary.WeakestArea}}
+  <p class="focus-hint">Focus area: <strong>{{.Summary.WeakestArea}}</strong>
+    {{if .Summary.FocusSound}} — target sound: <strong>/{{.Summary.FocusSound}}/</strong>{{end}}
+  </p>
+  {{end}}
+
+  {{if .Summary.ShouldAdvanceLevel}}
+  <p class="milestone-hint">🔥 You have a {{.Summary.CurrentStreak}}-day streak — try some advanced exercises!</p>
+  {{end}}
+</div>
+
+{{if .Summary.Recommendations}}
+<ul class="recommendation-list">
+  {{range .Summary.Recommendations}}
+  <li class="recommendation-card">
+    <div class="recommendation-info">
+      <h2 class="recommendation-title">{{.Exercise.Name}}</h2>
+      <p class="recommendation-reason">{{.Reason}}</p>
+      <span class="badge badge-{{.Exercise.Difficulty}}">{{.Exercise.Difficulty}}</span>
+      <span class="badge badge-category">{{.Exercise.Category}}</span>
+    </div>
+    <div class="recommendation-actions">
+      <a href="/exercises/{{.Exercise.ID}}" class="btn btn-secondary">View</a>
+      <form method="POST" action="/recommendations/accept" style="display:inline">
+        <input type="hidden" name="exercise_id" value="{{.Exercise.ID}}">
+        <button type="submit" class="btn btn-primary">Accept</button>
+      </form>
+      <form method="POST" action="/recommendations/reject" style="display:inline">
+        <input type="hidden" name="exercise_id" value="{{.Exercise.ID}}">
+        <button type="submit" class="btn btn-outline">Not now</button>
+      </form>
+    </div>
+  </li>
+  {{end}}
+</ul>
+{{else}}
+<p class="empty-state">No recommendations available right now. Keep practising to unlock personalised suggestions!</p>
+<a href="/exercises" class="btn btn-primary">Browse Exercise Library</a>
+{{end}}
+
+{{else}}
+<p class="empty-state">Complete more exercises to receive personalised recommendations.</p>
+<a href="/exercises" class="btn btn-primary">Browse Exercise Library</a>
+{{end}}
 {{end}}
