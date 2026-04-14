@@ -82,6 +82,8 @@ func (r *Router) registerRoutes() {
 
 	// Progress routes
 	r.mux.HandleFunc("/progress", r.progressHandler.Index)
+	r.mux.HandleFunc("/progress/streak", r.progressHandler.Streak)
+	r.mux.HandleFunc("/progress/calendar", r.progressHandler.WeeklyCalendar)
 
 	// Preferences routes
 	r.mux.HandleFunc("/preferences", r.preferencesHandler.Index)

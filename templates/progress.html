@@ -1,0 +1,130 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Your Progress</h1>
+  <p class="page-subtitle">Track your speech practice journey and celebrate your achievements.</p>
+</div>
+
+<!-- Key Stats (Req 7.2, 7.3, 7.4, 7.5) -->
+<section class="section" aria-labelledby="stats-heading">
+  <h2 id="stats-heading" class="sr-only">Key Statistics</h2>
+  <div class="stats" role="list">
+    <div class="stat-card" role="listitem">
+      <h3>Current Streak</h3>
+      <p class="stat-value" aria-label="{{.CurrentStreak}} day streak">{{.CurrentStreak}} 🔥</p>
+      <p class="stat-label">days in a row</p>
+    </div>
+    <div class="stat-card" role="listitem">
+      <h3>Longest Streak</h3>
+      <p class="stat-value" aria-label="{{.LongestStreak}} day longest streak">{{.LongestStreak}} ⭐</p>
+      <p class="stat-label">personal best</p>
+    </div>
+    <div class="stat-card" role="listitem">
+      <h3>Total Exercises</h3>
+      <p class="stat-value" aria-label="{{.TotalExercises}} exercises completed">{{.TotalExercises}}</p>
+      <p class="stat-label">exercises completed</p>
+    </div>
+    <div class="stat-card" role="listitem">
+      <h3>Total Practice Time</h3>
+      <p class="stat-value" aria-label="{{.TotalTimeMinutes}} minutes {{.TotalTimeSecs}} seconds">{{.TotalTimeMinutes}}m {{.TotalTimeSecs}}s</p>
+      <p class="stat-label">time invested</p>
+    </div>
+    <div class="stat-card" role="listitem">
+      <h3>Sessions Completed</h3>
+      <p class="stat-value" aria-label="{{.TotalSessions}} sessions">{{.TotalSessions}}</p>
+      <p class="stat-label">practice sessions</p>
+    </div>
+  </div>
+</section>
+
+<!-- Weekly Calendar (Req 7.6) -->
+<section class="section" aria-labelledby="calendar-heading">
+  <div class="section-header">
+    <h2 id="calendar-heading">This Week</h2>
+    <a href="/progress/calendar" class="btn btn-outline btn-sm">Full Calendar</a>
+  </div>
+  <div class="weekly-calendar" role="list" aria-label="Weekly activity calendar">
+    {{range .WeeklyActivity}}
+    <div class="calendar-day level-{{.Level}}" role="listitem"
+         aria-label="{{.Date.Format "Monday"}}: {{.ExerciseCount}} exercises">
+      <span class="day-label" aria-hidden="true">{{.Date.Format "Mon"}}</span>
+      <span class="day-count">{{.ExerciseCount}}</span>
+    </div>
+    {{end}}
+  </div>
+  <div class="calendar-legend" aria-hidden="true">
+    <span>Less</span>
+    <span class="legend-dot level-0"></span>
+    <span class="legend-dot level-1"></span>
+    <span class="legend-dot level-2"></span>
+    <span class="legend-dot level-3"></span>
+    <span class="legend-dot level-4"></span>
+    <span>More</span>
+  </div>
+</section>
+
+<!-- Category Progress (Req 7.7) -->
+{{if .CategoryProgress}}
+<section class="section" aria-labelledby="category-progress-heading">
+  <h2 id="category-progress-heading">Progress by Category</h2>
+  <div class="category-progress-list">
+    {{range $cat, $prog := .CategoryProgress}}
+    <div class="category-progress-item">
+      <div class="category-progress-header">
+        <span class="category-name">{{$cat}}</span>
+        <span class="category-stats">{{$prog.CompletedExercises}} / {{$prog.TotalExercises}} exercises</span>
+      </div>
+      <div class="progress-bar" role="progressbar"
+           aria-valuenow="{{$prog.CompletedExercises}}"
+           aria-valuemin="0"
+           aria-valuemax="{{$prog.TotalExercises}}"
+           aria-label="{{$cat}} progress">
+        {{if gt $prog.TotalExercises 0}}
+        <div class="progress-bar-fill" style="width: {{$prog.GetCompletionPercentage}}%"></div>
+        {{end}}
+      </div>
+    </div>
+    {{end}}
+  </div>
+</section>
+{{end}}
+
+<!-- Achievements (Req 7.9) -->
+{{if .Achievements}}
+<section class="section" aria-labelledby="achievements-heading">
+  <h2 id="achievements-heading">Achievements</h2>
+  <ul class="achievement-list" role="list">
+    {{range .Achievements}}
+    <li class="achievement-card {{if .IsUnlocked}}achievement-unlocked{{else}}achievement-locked{{end}}"
+        aria-label="{{.Name}}: {{.Description}}{{if .IsUnlocked}} - Unlocked{{else}} - Locked{{end}}">
+      <span class="achievement-icon" aria-hidden="true">{{.Icon}}</span>
+      <div class="achievement-info">
+        <span class="achievement-name">{{.Name}}</span>
+        <span class="achievement-desc">{{.Description}}</span>
+        {{if not .IsUnlocked}}
+        <div class="progress-bar" role="progressbar"
+             aria-valuenow="{{.Progress}}"
+             aria-valuemin="0"
+             aria-valuemax="{{.Target}}">
+          <div class="progress-bar-fill" style="width: {{.GetCompletionPercentage}}%"></div>
+        </div>
+        <span class="achievement-progress">{{.Progress}} / {{.Target}}</span>
+        {{end}}
+      </div>
+      {{if .IsUnlocked}}
+      <span class="achievement-badge" aria-hidden="true">✓</span>
+      {{end}}
+    </li>
+    {{end}}
+  </ul>
+</section>
+{{end}}
+
+<!-- Navigation Links -->
+<section class="section" aria-label="Progress navigation">
+  <div class="actions">
+    <a href="/progress/streak" class="btn btn-secondary">View Streak Details</a>
+    <a href="/progress/calendar" class="btn btn-secondary">Weekly Calendar</a>
+    <a href="/session/start" class="btn btn-primary">Start Practicing</a>
+  </div>
+</section>
+{{end}}

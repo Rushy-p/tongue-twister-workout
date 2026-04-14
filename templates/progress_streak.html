@@ -1,0 +1,89 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Practice Streak</h1>
+  <p class="page-subtitle">Keep the momentum going — every day counts.</p>
+</div>
+
+<!-- Streak Stats (Req 7.2) -->
+<section class="section" aria-labelledby="streak-stats-heading">
+  <h2 id="streak-stats-heading" class="sr-only">Streak Statistics</h2>
+  <div class="stats">
+    <div class="stat-card stat-card--highlight">
+      <h3>Current Streak</h3>
+      <p class="stat-value stat-value--large" aria-label="{{.CurrentStreak}} day streak">
+        {{.CurrentStreak}} 🔥
+      </p>
+      <p class="stat-label">consecutive days</p>
+    </div>
+    <div class="stat-card">
+      <h3>Longest Streak</h3>
+      <p class="stat-value" aria-label="{{.LongestStreak}} day personal best">
+        {{.LongestStreak}} ⭐
+      </p>
+      <p class="stat-label">personal best</p>
+    </div>
+  </div>
+</section>
+
+<!-- Streak Details -->
+<section class="section" aria-labelledby="streak-details-heading">
+  <h2 id="streak-details-heading">Streak Details</h2>
+  <dl class="session-stats">
+    <div class="stat-item">
+      <dt>Streak Started</dt>
+      <dd>{{.StreakStartDate}}</dd>
+    </div>
+    <div class="stat-item">
+      <dt>Last Activity</dt>
+      <dd>{{.LastActivityDate}}</dd>
+    </div>
+  </dl>
+</section>
+
+<!-- Streak Achievements (Req 7.9) -->
+{{if .Achievements}}
+<section class="section" aria-labelledby="streak-achievements-heading">
+  <h2 id="streak-achievements-heading">Streak Achievements</h2>
+  <ul class="achievement-list" role="list">
+    {{range .Achievements}}
+    {{if eq .AchievementType "streak"}}
+    <li class="achievement-card {{if .IsUnlocked}}achievement-unlocked{{else}}achievement-locked{{end}}"
+        aria-label="{{.Name}}: {{.Description}}{{if .IsUnlocked}} - Unlocked{{else}} - In progress{{end}}">
+      <span class="achievement-icon" aria-hidden="true">{{.Icon}}</span>
+      <div class="achievement-info">
+        <span class="achievement-name">{{.Name}}</span>
+        <span class="achievement-desc">{{.Description}}</span>
+        {{if not .IsUnlocked}}
+        <div class="progress-bar" role="progressbar"
+             aria-valuenow="{{.Progress}}"
+             aria-valuemin="0"
+             aria-valuemax="{{.Target}}">
+          <div class="progress-bar-fill" style="width: {{.GetCompletionPercentage}}%"></div>
+        </div>
+        <span class="achievement-progress">{{.Progress}} / {{.Target}} days</span>
+        {{end}}
+      </div>
+      {{if .IsUnlocked}}
+      <span class="achievement-badge" aria-hidden="true">✓</span>
+      {{end}}
+    </li>
+    {{end}}
+    {{end}}
+  </ul>
+</section>
+{{end}}
+
+<!-- Motivation Message -->
+<section class="section" aria-labelledby="motivation-heading">
+  <h2 id="motivation-heading">Keep Going!</h2>
+  {{if gt .CurrentStreak 0}}
+  <p>You're on a <strong>{{.CurrentStreak}}-day streak</strong>. Don't break the chain!</p>
+  {{else}}
+  <p>Start a new streak today — practice just one exercise to get going.</p>
+  {{end}}
+  <div class="actions">
+    <a href="/session/start" class="btn btn-primary">Practice Now</a>
+    <a href="/progress" class="btn btn-secondary">Back to Progress</a>
+  </div>
+</section>
+{{end}}

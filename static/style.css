@@ -442,3 +442,300 @@ select:focus {
 	border-radius: var(--radius-md);
 	margin-bottom: var(--space-4);
 }
+
+/* Progress Page Styles */
+
+.section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--space-4);
+}
+
+.stat-label {
+	font-size: var(--font-size-sm);
+	color: var(--text-muted);
+	margin-top: var(--space-1);
+}
+
+.stat-card--highlight {
+	border-color: var(--primary);
+	background: linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(79, 70, 229, 0.02));
+}
+
+.stat-value--large {
+	font-size: var(--font-size-3xl);
+}
+
+/* Weekly Calendar */
+.weekly-calendar {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: var(--space-2);
+	margin-top: var(--space-4);
+}
+
+.weekly-calendar--large {
+	gap: var(--space-3);
+}
+
+.calendar-day {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: var(--space-3) var(--space-2);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--border);
+	background-color: var(--surface);
+	text-align: center;
+	transition: transform var(--transition-fast);
+}
+
+.calendar-day:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--shadow-md);
+}
+
+.calendar-day--large {
+	padding: var(--space-4);
+}
+
+.day-label {
+	font-size: var(--font-size-xs);
+	font-weight: 600;
+	color: var(--text-secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.day-date {
+	font-size: var(--font-size-xs);
+	color: var(--text-muted);
+	margin-top: var(--space-1);
+}
+
+.day-count {
+	font-size: var(--font-size-xl);
+	font-weight: 700;
+	margin-top: var(--space-2);
+}
+
+.day-count-label {
+	font-size: var(--font-size-xs);
+	color: var(--text-muted);
+}
+
+/* Activity Levels */
+.level-0 { color: var(--text-muted); }
+.level-0 .day-count { color: var(--text-muted); }
+
+.level-1 { border-color: #BBF7D0; background-color: #F0FDF4; }
+.level-1 .day-count { color: #16A34A; }
+
+.level-2 { border-color: #86EFAC; background-color: #DCFCE7; }
+.level-2 .day-count { color: #15803D; }
+
+.level-3 { border-color: #4ADE80; background-color: #BBFFD0; }
+.level-3 .day-count { color: #166534; }
+
+.level-4 { border-color: #22C55E; background-color: #86EFAC; }
+.level-4 .day-count { color: #14532D; }
+
+/* Calendar Legend */
+.calendar-legend {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+	margin-top: var(--space-4);
+	font-size: var(--font-size-sm);
+	color: var(--text-secondary);
+	flex-wrap: wrap;
+}
+
+.legend-label {
+	font-weight: 500;
+}
+
+.legend-item {
+	display: flex;
+	align-items: center;
+	gap: var(--space-1);
+}
+
+.legend-dot {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--border);
+}
+
+.legend-dot.level-0 { background-color: var(--background); }
+.legend-dot.level-1 { background-color: #BBF7D0; border-color: #86EFAC; }
+.legend-dot.level-2 { background-color: #86EFAC; border-color: #4ADE80; }
+.legend-dot.level-3 { background-color: #4ADE80; border-color: #22C55E; }
+.legend-dot.level-4 { background-color: #22C55E; border-color: #16A34A; }
+
+/* Category Progress */
+.category-progress-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+	margin-top: var(--space-4);
+}
+
+.category-progress-item {
+	background-color: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	padding: var(--space-4) var(--space-6);
+}
+
+.category-progress-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--space-3);
+}
+
+.category-name {
+	font-weight: 600;
+	color: var(--text-primary);
+	text-transform: capitalize;
+}
+
+.category-stats {
+	font-size: var(--font-size-sm);
+	color: var(--text-secondary);
+}
+
+/* Achievements */
+.achievement-list {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	margin-top: var(--space-4);
+}
+
+.achievement-card {
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
+	background-color: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	padding: var(--space-4) var(--space-6);
+	transition: all var(--transition-normal);
+}
+
+.achievement-unlocked {
+	border-color: var(--secondary);
+	background-color: #F0FDF4;
+}
+
+.achievement-locked {
+	opacity: 0.7;
+}
+
+.achievement-icon {
+	font-size: var(--font-size-2xl);
+	flex-shrink: 0;
+}
+
+.achievement-info {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+}
+
+.achievement-name {
+	font-weight: 600;
+	color: var(--text-primary);
+}
+
+.achievement-desc {
+	font-size: var(--font-size-sm);
+	color: var(--text-secondary);
+}
+
+.achievement-progress {
+	font-size: var(--font-size-xs);
+	color: var(--text-muted);
+	margin-top: var(--space-1);
+}
+
+.achievement-badge {
+	font-size: var(--font-size-lg);
+	color: var(--secondary);
+	font-weight: 700;
+	flex-shrink: 0;
+}
+
+/* Button variants */
+.btn-outline {
+	background-color: transparent;
+	color: var(--primary);
+	border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+	background-color: rgba(79, 70, 229, 0.05);
+	color: var(--primary-dark);
+}
+
+.btn-sm {
+	padding: var(--space-2) var(--space-4);
+	font-size: var(--font-size-sm);
+}
+
+/* Session stats dl */
+.session-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: var(--space-4);
+	margin-top: var(--space-4);
+}
+
+.stat-item {
+	background-color: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	padding: var(--space-4) var(--space-6);
+}
+
+.stat-item dt {
+	font-size: var(--font-size-sm);
+	font-weight: 500;
+	color: var(--text-secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: var(--space-2);
+}
+
+.stat-item dd {
+	font-size: var(--font-size-xl);
+	font-weight: 700;
+	color: var(--primary);
+}
+
+/* Responsive calendar */
+@media (max-width: 640px) {
+	.weekly-calendar {
+		grid-template-columns: repeat(7, 1fr);
+		gap: var(--space-1);
+	}
+
+	.calendar-day {
+		padding: var(--space-2) var(--space-1);
+	}
+
+	.day-count {
+		font-size: var(--font-size-base);
+	}
+
+	.calendar-legend {
+		gap: var(--space-2);
+	}
+}
