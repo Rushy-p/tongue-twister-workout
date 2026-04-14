@@ -4,32 +4,49 @@
   <p class="page-subtitle">Session started at {{.StartTime.Format "3:04 PM"}}.</p>
 </div>
 
+<!-- Live session timer (Req 6.1) -->
+<section class="section" aria-labelledby="timer-heading">
+  <h2 id="timer-heading" class="sr-only">Session Timer</h2>
+  <div class="timer-section" style="text-align:center;">
+    <div
+      id="session-timer"
+      class="session-timer"
+      aria-live="off"
+      aria-label="Session elapsed time"
+      data-start="{{.StartTime.Unix}}"
+    >00:00</div>
+    <p class="session-timer-label">elapsed</p>
+  </div>
+</section>
+
 <section class="section session-status" aria-labelledby="session-status-heading">
   <h2 id="session-status-heading">Current Session</h2>
   <dl class="session-stats">
     <div class="stat-item">
-      <dt>Session ID</dt>
-      <dd><code>{{.SessionID}}</code></dd>
-    </div>
-    <div class="stat-item">
       <dt>Exercises Completed</dt>
-      <dd>{{.Session.GetExerciseCount}}</dd>
+      <dd class="stat-value">{{.Session.GetExerciseCount}}</dd>
     </div>
     <div class="stat-item">
       <dt>Status</dt>
-      <dd><span class="badge badge-in_progress">In Progress</span></dd>
+      <dd><span class="badge badge-in_progress" aria-label="Status: In Progress">In Progress</span></dd>
+    </div>
+    <div class="stat-item">
+      <dt>Session ID</dt>
+      <dd><code>{{.SessionID}}</code></dd>
     </div>
   </dl>
 </section>
 
 {{if .Session.Exercises}}
 <section class="section" aria-labelledby="completed-exercises-heading">
-  <h2 id="completed-exercises-heading">Completed Exercises</h2>
+  <h2 id="completed-exercises-heading">Exercises Completed</h2>
   <ul class="exercise-list" role="list">
     {{range .Session.Exercises}}
     <li class="exercise-card exercise-card--completed">
-      <span class="exercise-name">{{.ExerciseName}}</span>
-      <span class="badge badge-completed" aria-label="Completed">✓ Done</span>
+      <div class="exercise-card-link" style="display:flex; align-items:center; justify-content:space-between; padding: var(--space-3) var(--space-4);">
+        <span class="exercise-name">{{.ExerciseName}}</span>
+        <span class="badge badge-completed" aria-label="Completed">✓ Done</span>
+      </div>
     </li>
     {{end}}
   </ul>
@@ -38,15 +55,15 @@
 
 <section class="section" aria-labelledby="add-exercise-heading">
   <h2 id="add-exercise-heading">Add an Exercise</h2>
-  <p>Go to the <a href="/exercises">exercise library</a> to pick an exercise, then come back to record it.</p>
+  <p>Go to the <a href="/exercises">exercise library</a> to pick an exercise, then come back to record it here.</p>
   <form method="POST" action="/session/exercise/complete" aria-label="Record exercise completion">
     <input type="hidden" name="session_id" value="{{.SessionID}}">
     <div class="form-group">
-      <label for="exercise_id">Exercise ID</label>
+      <label class="form-label" for="exercise_id">Exercise ID</label>
       <input type="text" id="exercise_id" name="exercise_id" class="form-control" placeholder="e.g. me-001" required aria-required="true">
     </div>
     <div class="form-group">
-      <label for="notes">Notes (optional)</label>
+      <label class="form-label" for="notes">Notes (optional)</label>
       <input type="text" id="notes" name="notes" class="form-control" placeholder="How did it go?">
     </div>
     <button type="submit" class="btn btn-secondary">Record Exercise</button>
@@ -54,13 +71,38 @@
 </section>
 
 <section class="section session-actions" aria-label="Session actions">
-  <form method="POST" action="/session/complete" style="display:inline;">
+  <form method="POST" action="/session/complete">
     <input type="hidden" name="session_id" value="{{.SessionID}}">
-    <button type="submit" class="btn btn-primary">Complete Session</button>
+    <button type="submit" class="btn btn-primary btn-large">Complete Session</button>
   </form>
-  <form method="POST" action="/session/save" style="display:inline; margin-left: 1rem;">
+  <form method="POST" action="/session/save">
     <input type="hidden" name="session_id" value="{{.SessionID}}">
     <button type="submit" class="btn btn-outline">Save &amp; Exit</button>
   </form>
 </section>
+
+<script>
+(function () {
+  var el = document.getElementById('session-timer');
+  if (!el) return;
+
+  var startUnix = parseInt(el.getAttribute('data-start'), 10);
+  if (isNaN(startUnix)) return;
+
+  function pad(n) {
+    return n < 10 ? '0' + n : String(n);
+  }
+
+  function tick() {
+    var now = Math.floor(Date.now() / 1000);
+    var elapsed = Math.max(0, now - startUnix);
+    var minutes = Math.floor(elapsed / 60);
+    var seconds = elapsed % 60;
+    el.textContent = pad(minutes) + ':' + pad(seconds);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
 {{end}}
