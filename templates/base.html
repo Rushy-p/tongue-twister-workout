@@ -1,29 +1,67 @@
-<!DOCTYPE html>
+{{define "base"}}<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{.Title}} - Speech Practice</title>
+  <title>{{template "title" .}} - Speech Practice</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+  <!-- Skip to main content for keyboard navigation (Req 12.1, 12.5) -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <header class="site-header" role="banner">
     <nav class="nav-container" aria-label="Main navigation">
-      <a href="/" class="nav-logo" aria-label="Speech Practice Home">🗣 Speech Practice</a>
-      <ul class="nav-links" role="list">
-        <li><a href="/exercises" class="nav-link">Library</a></li>
-        <li><a href="/session" class="nav-link">Practice</a></li>
+      <a href="/" class="nav-logo" aria-label="Speech Practice — Home">
+        <span aria-hidden="true">🗣</span> Speech Practice
+      </a>
+      <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span aria-hidden="true">☰</span>
+      </button>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/exercises" class="nav-link">Exercises</a></li>
+        <li><a href="/session" class="nav-link">Sessions</a></li>
         <li><a href="/progress" class="nav-link">Progress</a></li>
+        <li><a href="/preferences" class="nav-link">Preferences</a></li>
         <li><a href="/recommendations" class="nav-link">Recommendations</a></li>
-        <li><a href="/preferences" class="nav-link">Settings</a></li>
       </ul>
     </nav>
   </header>
-  <main id="main-content" role="main">
+
+  <main id="main-content" role="main" tabindex="-1">
     {{template "content" .}}
   </main>
+
   <footer class="site-footer" role="contentinfo">
-    <p>&copy; Speech Practice App</p>
+    <div class="footer-container">
+      <p class="footer-text">
+        &copy; Speech Practice App &mdash; Improve your speech, one session at a time.
+      </p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/exercises">Exercises</a>
+        <a href="/progress">Progress</a>
+        <a href="/preferences">Settings</a>
+      </nav>
+    </div>
   </footer>
+
+  <script>
+    // Mobile nav toggle
+    (function() {
+      var btn = document.querySelector('.nav-toggle');
+      var menu = document.getElementById('nav-links');
+      if (btn && menu) {
+        btn.addEventListener('click', function() {
+          var expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          menu.classList.toggle('nav-links--open');
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
+{{end}}
+
+{{define "title"}}{{if .Title}}{{.Title}}{{else}}Speech Practice{{end}}{{end}}

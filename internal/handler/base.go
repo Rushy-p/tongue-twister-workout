@@ -41,11 +41,12 @@ func NewBaseHandler(
 	}
 }
 
-// Render renders a template with the given name and data
+// Render renders a page template by executing the "base" layout with the named
+// template's "content" block. The name parameter is kept for logging context.
 func (h *BaseHandler) Render(w http.ResponseWriter, name string, data interface{}) {
 	w.Header().Set("Content-Type", "text/html")
-	if err := h.templates.ExecuteTemplate(w, name, data); err != nil {
-		log.Printf("Template error: %v", err)
+	if err := h.templates.ExecuteTemplate(w, "base", data); err != nil {
+		log.Printf("Template error (%s): %v", name, err)
 		http.Error(w, "Template error", http.StatusInternalServerError)
 	}
 }
