@@ -1296,3 +1296,81 @@ select:focus {
 }
 
 /* ============================================================
+   Exercise Detail Template (Task 6.2)
+   ============================================================ */
+
+.exercise-detail {
+  max-width: 800px;
+}
+
+.exercise-detail-header {
+  margin-bottom: var(--space-8);
+}
+
+.exercise-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin: var(--space-3) 0;
+}
+
+.exercise-description {
+  color: var(--text-secondary);
+  font-size: var(--font-size-lg);
+  margin-bottom: 0;
+}
+
+/* Instructions section (Req 2.1) */
+.exercise-instructions {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.exercise-instructions h2 {
+  margin-bottom: var(--space-4);
+}
+
+/* Articulation points section (Req 2.2) */
+.articulation-section {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.articulation-section h2 {
+  margin-bottom: var(--space-4);
+}
+
+.articulation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-4) 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.articulation-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: rgba(79, 70, 229, 0.06);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--primary-dark);
+}
+
+.articulation-icon {
+  font-size: var(--font-size-base);
+}
+
+/* Phonetic guidance (Req 3.3) */
