@@ -130,6 +130,63 @@
     </div>
   </section>
 
+  <!-- Accessibility Settings (Req 12.2, 12.3, 12.7) -->
+  <section class="prefs-section" aria-labelledby="accessibility-settings-heading">
+    <h2 id="accessibility-settings-heading">Accessibility</h2>
+
+    <div class="form-group form-group-toggle">
+      <label class="toggle-label" for="high_contrast">
+        <span>High Contrast Mode</span>
+        <span class="toggle-hint">Increase contrast for better readability.</span>
+      </label>
+      <input type="checkbox" id="high_contrast" name="high_contrast" class="toggle-input"
+             role="switch" aria-checked="{{if .Preferences.Accessibility.HighContrastMode}}true{{else}}false{{end}}"
+             {{if .Preferences.Accessibility.HighContrastMode}}checked{{end}}>
+    </div>
+
+    <div class="form-group">
+      <label for="text_size" class="form-label">Text Size</label>
+      <select id="text_size" name="text_size" class="form-select" aria-describedby="text-size-hint">
+        <option value="100" {{if eq .Preferences.Accessibility.GetTextSizePercentage 100}}selected{{end}}>100% — Default</option>
+        <option value="125" {{if eq .Preferences.Accessibility.GetTextSizePercentage 125}}selected{{end}}>125%</option>
+        <option value="150" {{if eq .Preferences.Accessibility.GetTextSizePercentage 150}}selected{{end}}>150%</option>
+        <option value="175" {{if eq .Preferences.Accessibility.GetTextSizePercentage 175}}selected{{end}}>175%</option>
+        <option value="200" {{if eq .Preferences.Accessibility.GetTextSizePercentage 200}}selected{{end}}>200% — Maximum</option>
+      </select>
+      <p id="text-size-hint" class="form-hint">Adjust text size up to 200% of the default (Req 12.3).</p>
+    </div>
+
+    <div class="form-group form-group-toggle">
+      <label class="toggle-label" for="accessibility_mode">
+        <span>Accessibility Mode</span>
+        <span class="toggle-hint">Increases the size of all interactive elements by 25% (Req 12.7).</span>
+      </label>
+      <input type="checkbox" id="accessibility_mode" name="accessibility_mode" class="toggle-input"
+             role="switch" aria-checked="{{if gt .Preferences.Accessibility.ElementSizeMultiplier 1.0}}true{{else}}false{{end}}"
+             {{if gt .Preferences.Accessibility.ElementSizeMultiplier 1.0}}checked{{end}}>
+    </div>
+
+    <div class="form-group form-group-toggle">
+      <label class="toggle-label" for="screen_reader">
+        <span>Screen Reader Support</span>
+        <span class="toggle-hint">Optimise the interface for screen reader technology.</span>
+      </label>
+      <input type="checkbox" id="screen_reader" name="screen_reader" class="toggle-input"
+             role="switch" aria-checked="{{if .Preferences.Accessibility.ScreenReaderEnabled}}true{{else}}false{{end}}"
+             {{if .Preferences.Accessibility.ScreenReaderEnabled}}checked{{end}}>
+    </div>
+
+    <div class="form-group form-group-toggle">
+      <label class="toggle-label" for="keyboard_navigation">
+        <span>Keyboard Navigation</span>
+        <span class="toggle-hint">Enable full keyboard navigation for all interactive elements.</span>
+      </label>
+      <input type="checkbox" id="keyboard_navigation" name="keyboard_navigation" class="toggle-input"
+             role="switch" aria-checked="{{if .Preferences.Accessibility.KeyboardNavigationEnabled}}true{{else}}false{{end}}"
+             {{if .Preferences.Accessibility.KeyboardNavigationEnabled}}checked{{end}}>
+    </div>
+  </section>
+
   <div class="actions">
     <button type="submit" class="btn btn-primary">Save Settings</button>
     <a href="/" class="btn btn-outline">Cancel</a>
