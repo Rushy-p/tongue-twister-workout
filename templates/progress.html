@@ -62,6 +62,25 @@
   </div>
 </section>
 
+<!-- Weekly Activity Bar Chart (Req 7.5 — graphical format) -->
+<section class="section" aria-labelledby="chart-heading">
+  <h2 id="chart-heading">Weekly Activity Chart</h2>
+  <div class="progress-chart" role="img" aria-label="Bar chart of exercises completed each day this week">
+    <p class="progress-chart-title">Exercises per day</p>
+    <div class="chart-bars" aria-hidden="true">
+      {{range .WeeklyActivity}}
+      <div class="chart-bar-group">
+        <span class="chart-value">{{if gt .ExerciseCount 0}}{{.ExerciseCount}}{{end}}</span>
+        <div class="chart-bar level-{{.Level}}"
+             style="height: {{if eq .Level 0}}4px{{else if eq .Level 1}}25%{{else if eq .Level 2}}50%{{else if eq .Level 3}}75%{{else}}100%{{end}}">
+        </div>
+        <span class="chart-label">{{.Date.Format "Mon"}}</span>
+      </div>
+      {{end}}
+    </div>
+  </div>
+</section>
+
 <!-- Category Progress (Req 7.7) -->
 {{if .CategoryProgress}}
 <section class="section" aria-labelledby="category-progress-heading">

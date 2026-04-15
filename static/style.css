@@ -1799,3 +1799,115 @@ select:focus {
     width: 100%;
   }
 }
+
+/* ============================================================
+   Progress Charts and Visualizations (Task 6.4, Req 7.5)
+   ============================================================ */
+
+/* Chart container */
+.progress-chart {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-top: var(--space-4);
+  overflow-x: auto;
+}
+
+.progress-chart-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-4);
+}
+
+/* Bar chart layout */
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  height: 120px;
+  padding-bottom: var(--space-6);
+  border-bottom: 2px solid var(--border);
+  position: relative;
+}
+
+/* Individual bar group (bar + label) */
+.chart-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 32px;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+}
+
+/* The bar itself */
+.chart-bar {
+  width: 100%;
+  background-color: var(--primary-light);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: background-color var(--transition-fast), height var(--transition-slow);
+  min-height: 4px;
+  position: relative;
+}
+
+.chart-bar:hover {
+  background-color: var(--primary);
+}
+
+/* Level-based bar colors matching calendar */
+.chart-bar.level-0 { background-color: var(--border); }
+.chart-bar.level-1 { background-color: #BBF7D0; }
+.chart-bar.level-2 { background-color: #86EFAC; }
+.chart-bar.level-3 { background-color: #4ADE80; }
+.chart-bar.level-4 { background-color: #22C55E; }
+
+.chart-bar.level-1:hover { background-color: #86EFAC; }
+.chart-bar.level-2:hover { background-color: #4ADE80; }
+.chart-bar.level-3:hover { background-color: #22C55E; }
+.chart-bar.level-4:hover { background-color: #16A34A; }
+
+/* Value shown above bar */
+.chart-value {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+  text-align: center;
+  min-height: 16px;
+}
+
+/* Label shown below the chart baseline */
+.chart-label {
+  position: absolute;
+  bottom: calc(-1 * var(--space-6));
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* Category percentage label */
+.category-pct {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--primary);
+  margin-left: var(--space-2);
+}
+
+/* Responsive chart */
+@media (max-width: 640px) {
+  .chart-bars {
+    height: 80px;
+  }
+
+  .chart-bar-group {
+    min-width: 24px;
+  }
+}
