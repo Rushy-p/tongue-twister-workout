@@ -39,6 +39,15 @@ type SessionActiveData struct {
 	Elapsed   time.Duration
 }
 
+// SessionRecoveryData holds data for the session recovery prompt (Req 13.3)
+type SessionRecoveryData struct {
+	PageData
+	SessionID          string
+	ExercisesCompleted int
+	StartTime          time.Time
+	Message            string
+}
+
 // SessionSummaryData holds data for the session summary page (Req 6.2, 6.6)
 type SessionSummaryData struct {
 	PageData

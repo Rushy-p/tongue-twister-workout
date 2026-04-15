@@ -1,0 +1,29 @@
+{{define "content"}}
+<div class="recovery-card" role="main" aria-labelledby="recovery-heading">
+  <div class="recovery-icon" aria-hidden="true">💾</div>
+  <h1 id="recovery-heading">Your session was interrupted</h1>
+  <p class="recovery-message">
+    {{if .Message}}{{.Message}}{{else}}Don't worry — your progress has been saved automatically. You can pick up right where you left off.{{end}}
+  </p>
+
+  <dl class="recovery-details" aria-label="Interrupted session details">
+    <dt>Session started</dt>
+    <dd>{{.StartTime.Format "Monday, 2 Jan 2006 at 15:04"}}</dd>
+    <dt>Exercises completed</dt>
+    <dd>{{.ExercisesCompleted}}</dd>
+  </dl>
+
+  <div class="recovery-actions">
+    <form method="POST" action="/session/resume/{{.SessionID}}" aria-label="Resume interrupted session">
+      <button type="submit" class="btn btn-primary" aria-label="Resume your interrupted session">
+        Resume Session
+      </button>
+    </form>
+    <form method="POST" action="/session/start" aria-label="Discard interrupted session and start fresh">
+      <button type="submit" class="btn btn-secondary" aria-label="Discard interrupted session and start a new one">
+        Start New Session
+      </button>
+    </form>
+  </div>
+</div>
+{{end}}
