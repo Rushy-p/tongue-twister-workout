@@ -1,0 +1,20 @@
+{{define "content"}}
+<div class="error-page" role="alert" aria-live="assertive">
+  <div class="error-icon" aria-hidden="true">
+    {{if eq .StatusCode 404}}🔍{{else}}⚠️{{end}}
+  </div>
+  <p class="error-code">{{.StatusCode}}</p>
+  <h1 class="error-title">
+    {{if eq .StatusCode 404}}Page Not Found{{else}}Something Went Wrong{{end}}
+  </h1>
+  <p class="error-message">
+    {{if .Message}}{{.Message}}{{else if eq .StatusCode 404}}We couldn't find the page you were looking for. It may have been moved or deleted.{{else}}An unexpected error occurred. We've been notified and are working on a fix.{{end}}
+  </p>
+  <div class="error-actions">
+    {{if .RetryURL}}
+    <a href="{{.RetryURL}}" class="btn btn-primary">Try Again</a>
+    {{end}}
+    <a href="{{.HomeURL}}" class="btn btn-secondary">Go Home</a>
+  </div>
+</div>
+{{end}}

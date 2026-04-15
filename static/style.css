@@ -2020,3 +2020,170 @@ select:focus {
   align-items: center;
   gap: var(--space-2);
 }
+
+/* ============================================================
+   Error Page Templates (Task 6.6, Req 13.1, 13.5)
+   ============================================================ */
+
+/* Centered container for error content */
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-16) var(--space-6);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* Large emoji/icon for the error */
+.error-icon {
+  font-size: 64px;
+  line-height: 1;
+  margin-bottom: var(--space-4);
+}
+
+/* Large status code display (404, 500, etc.) */
+.error-code {
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+/* Error heading */
+.error-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+/* Description text */
+.error-message {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-8);
+  line-height: 1.6;
+}
+
+/* Flex row of action buttons */
+.error-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .error-page {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .error-code {
+    font-size: var(--font-size-3xl);
+  }
+
+  .error-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .error-actions .btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   Session Recovery Template (Task 6.6, Req 13.3)
+   ============================================================ */
+
+/* Card container for recovery prompt */
+.recovery-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-8);
+  max-width: 560px;
+  margin: var(--space-12) auto;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+/* Large icon (💾 or similar) */
+.recovery-icon {
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: var(--space-4);
+}
+
+/* Main message text */
+.recovery-message {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  line-height: 1.6;
+}
+
+/* Session details (start time, exercise count) */
+.recovery-details {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  margin-bottom: var(--space-6);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.recovery-details dt {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.recovery-details dd {
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+}
+
+/* Flex row of action buttons */
+.recovery-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.recovery-actions form {
+  background: none;
+  border: none;
+  padding: 0;
+  max-width: none;
+}
+
+@media (max-width: 640px) {
+  .recovery-card {
+    padding: var(--space-6) var(--space-4);
+    margin: var(--space-6) auto;
+  }
+
+  .recovery-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .recovery-actions .btn,
+  .recovery-actions form .btn {
+    width: 100%;
+  }
+}

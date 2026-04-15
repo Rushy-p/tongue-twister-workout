@@ -1,0 +1,16 @@
+{{define "content"}}
+<div class="error-page" role="alert" aria-live="assertive">
+  <div class="error-icon" aria-hidden="true">📋</div>
+  <h1 class="error-title">Exercise Failed to Load</h1>
+  <p class="error-message">
+    We couldn't load this exercise. This might be a temporary issue — please try again in a moment.
+  </p>
+  <div class="error-actions">
+    {{if .RetryURL}}
+    <a href="{{.RetryURL}}" class="btn btn-primary" aria-label="Try loading the exercise again">Try Again</a>
+    {{end}}
+    <a href="/exercises" class="btn btn-secondary" aria-label="Browse all available exercises">Browse Exercises</a>
+    <a href="{{.HomeURL}}" class="btn btn-outline">Go Home</a>
+  </div>
+</div>
+{{end}}

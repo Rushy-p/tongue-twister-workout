@@ -57,9 +57,34 @@ func (h *BaseHandler) RenderString(w http.ResponseWriter, content string) {
 	w.Write([]byte(content))
 }
 
-// Error sends an error response
+// ErrorPageData holds data for error page templates (Req 13.1, 13.5)
+type ErrorPageData struct {
+	PageData
+	StatusCode int
+	StatusText string
+	Message    string
+	RetryURL   string // optional — URL to retry the failed action
+	HomeURL    string // always "/"
+}
+
+// Error sends an HTML error response using the error.html template.
+// Falls back to plain http.Error if template rendering fails (Req 13.5).
 func (h *BaseHandler) Error(w http.ResponseWriter, code int, message string) {
-	http.Error(w, message, code)
+	data := ErrorPageData{
+		PageData: PageData{
+			Title: http.StatusText(code),
+		},
+		StatusCode: code,
+		StatusText: http.StatusText(code),
+		Message:    message,
+		HomeURL:    "/",
+	}
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(code)
+	if err := h.templates.ExecuteTemplate(w, "base", data); err != nil {
+		log.Printf("Error template render failed (%d): %v", code, err)
+		http.Error(w, message, code)
+	}
 }
 
 // Redirect redirects to a given URL
