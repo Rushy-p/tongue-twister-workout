@@ -4,11 +4,11 @@
   <p class="page-subtitle">Track your speech practice journey and celebrate your achievements.</p>
 </div>
 
-<!-- Key Stats (Req 7.2, 7.3, 7.4, 7.5) -->
+<!-- Key Stats (Req 7.2, 7.3, 7.4) -->
 <section class="section" aria-labelledby="stats-heading">
   <h2 id="stats-heading" class="sr-only">Key Statistics</h2>
   <div class="stats" role="list">
-    <div class="stat-card" role="listitem">
+    <div class="stat-card stat-card--highlight" role="listitem">
       <h3>Current Streak</h3>
       <p class="stat-value" aria-label="{{.CurrentStreak}} day streak">{{.CurrentStreak}} 🔥</p>
       <p class="stat-label">days in a row</p>
@@ -72,14 +72,15 @@
       <div class="category-progress-header">
         <span class="category-name">{{$cat}}</span>
         <span class="category-stats">{{$prog.CompletedExercises}} / {{$prog.TotalExercises}} exercises</span>
+        <span class="category-pct">{{printf "%.0f" ($prog.GetCompletionPercentage)}}%</span>
       </div>
       <div class="progress-bar" role="progressbar"
            aria-valuenow="{{$prog.CompletedExercises}}"
            aria-valuemin="0"
            aria-valuemax="{{$prog.TotalExercises}}"
-           aria-label="{{$cat}} progress">
+           aria-label="{{$cat}} progress: {{printf "%.0f" ($prog.GetCompletionPercentage)}}%">
         {{if gt $prog.TotalExercises 0}}
-        <div class="progress-bar-fill" style="width: {{$prog.GetCompletionPercentage}}%"></div>
+        <div class="progress-bar-fill" style="width: {{printf "%.0f" ($prog.GetCompletionPercentage)}}%"></div>
         {{end}}
       </div>
     </div>
@@ -100,12 +101,14 @@
       <div class="achievement-info">
         <span class="achievement-name">{{.Name}}</span>
         <span class="achievement-desc">{{.Description}}</span>
-        {{if not .IsUnlocked}}
+        {{if .IsUnlocked}}
+        {{else}}
         <div class="progress-bar" role="progressbar"
              aria-valuenow="{{.Progress}}"
              aria-valuemin="0"
-             aria-valuemax="{{.Target}}">
-          <div class="progress-bar-fill" style="width: {{.GetCompletionPercentage}}%"></div>
+             aria-valuemax="{{.Target}}"
+             aria-label="{{.Name}} progress: {{.Progress}} of {{.Target}}">
+          <div class="progress-bar-fill" style="width: {{printf "%.0f" (.GetCompletionPercentage)}}%"></div>
         </div>
         <span class="achievement-progress">{{.Progress}} / {{.Target}}</span>
         {{end}}
