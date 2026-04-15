@@ -193,4 +193,34 @@
   </div>
 
 </form>
+
+<!-- Export Data (Req 9.7, 14.1) -->
+<section class="export-card" aria-labelledby="export-data-heading">
+  <h2 id="export-data-heading">Export Your Data</h2>
+  <p class="export-description">
+    Download a complete copy of your practice history, session records, and preferences.
+    Your data is stored locally on this device and is never shared without your consent.
+  </p>
+
+  <p class="export-preferred">
+    Your preferred format is <strong>{{print .Preferences.ExportFormat}}</strong>.
+    You can change this in the Export Preferences section above.
+  </p>
+
+  <div class="export-actions">
+    <a href="/preferences/export?format=json" class="btn btn-secondary"
+       aria-label="Export all practice data as a JSON file">
+      Export as JSON
+    </a>
+    <a href="/preferences/export?format=csv" class="btn btn-secondary"
+       aria-label="Export all practice data as a CSV file">
+      Export as CSV
+    </a>
+  </div>
+
+  <p class="export-privacy-note">
+    <span aria-hidden="true">🔒</span>
+    All data is stored locally on your device. No information is sent to external servers.
+  </p>
+</section>
 {{end}}

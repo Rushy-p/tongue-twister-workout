@@ -1970,3 +1970,53 @@ select:focus {
   height: 18px;
   cursor: pointer;
 }
+
+/* Export card (Task 6.5, Req 9.7) */
+.export-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-top: var(--space-8);
+  max-width: 600px;
+}
+
+.export-card h2 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.export-description {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.export-preferred {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.export-preferred strong {
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.export-actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+.export-privacy-note {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
