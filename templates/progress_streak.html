@@ -53,12 +53,14 @@
       <div class="achievement-info">
         <span class="achievement-name">{{.Name}}</span>
         <span class="achievement-desc">{{.Description}}</span>
-        {{if not .IsUnlocked}}
+        {{if .IsUnlocked}}
+        {{else}}
         <div class="progress-bar" role="progressbar"
              aria-valuenow="{{.Progress}}"
              aria-valuemin="0"
-             aria-valuemax="{{.Target}}">
-          <div class="progress-bar-fill" style="width: {{.GetCompletionPercentage}}%"></div>
+             aria-valuemax="{{.Target}}"
+             aria-label="{{.Name}} progress: {{.Progress}} of {{.Target}} days">
+          <div class="progress-bar-fill" style="width: {{printf "%.0f" (.GetCompletionPercentage)}}%"></div>
         </div>
         <span class="achievement-progress">{{.Progress}} / {{.Target}} days</span>
         {{end}}
@@ -76,7 +78,11 @@
 <!-- Motivation Message -->
 <section class="section" aria-labelledby="motivation-heading">
   <h2 id="motivation-heading">Keep Going!</h2>
-  {{if gt .CurrentStreak 0}}
+  {{if ge .CurrentStreak 30}}
+  <p>🏆 Incredible! A <strong>{{.CurrentStreak}}-day streak</strong> — you're a true speech champion!</p>
+  {{else if ge .CurrentStreak 7}}
+  <p>🔥 Amazing! You've hit <strong>{{.CurrentStreak}} days</strong> in a row. Keep the momentum going!</p>
+  {{else if gt .CurrentStreak 0}}
   <p>You're on a <strong>{{.CurrentStreak}}-day streak</strong>. Don't break the chain!</p>
   {{else}}
   <p>Start a new streak today — practice just one exercise to get going.</p>
