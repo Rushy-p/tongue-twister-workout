@@ -27,7 +27,7 @@
   <div class="weekly-calendar weekly-calendar--large" role="list" aria-label="Daily activity for the past 7 days">
     {{range .WeeklyActivity}}
     <div class="calendar-day calendar-day--large level-{{.Level}}" role="listitem"
-         aria-label="{{.Date.Format "Monday, January 2"}}: {{.ExerciseCount}} exercises">
+         aria-label="{{.Date.Format "Monday, January 2"}}: {{.ExerciseCount}} exercises, {{.Duration}} practice time">
       <span class="day-label">{{.Date.Format "Mon"}}</span>
       <span class="day-date">{{.Date.Format "Jan 2"}}</span>
       <span class="day-count" aria-hidden="true">{{.ExerciseCount}}</span>
