@@ -19,7 +19,7 @@
 <form method="POST" action="/preferences/update" aria-label="Preferences form">
 
   <!-- Practice Settings (Req 9.1, 9.2) -->
-  <section class="section" aria-labelledby="practice-settings-heading">
+  <section class="prefs-section" aria-labelledby="practice-settings-heading">
     <h2 id="practice-settings-heading">Practice Settings</h2>
 
     <div class="form-group">
@@ -45,7 +45,7 @@
   </section>
 
   <!-- Feedback Settings (Req 9.3, 9.4) -->
-  <section class="section" aria-labelledby="feedback-settings-heading">
+  <section class="prefs-section" aria-labelledby="feedback-settings-heading">
     <h2 id="feedback-settings-heading">Feedback</h2>
 
     <div class="form-group form-group-toggle">
@@ -54,7 +54,7 @@
         <span class="toggle-hint">Play a sound when an exercise timer ends.</span>
       </label>
       <input type="checkbox" id="audio_feedback" name="audio_feedback" class="toggle-input"
-             role="switch" aria-checked="{{.Preferences.AudioFeedback}}"
+             role="switch" aria-checked="{{if .Preferences.AudioFeedback}}true{{else}}false{{end}}"
              {{if .Preferences.AudioFeedback}}checked{{end}}>
     </div>
 
@@ -64,13 +64,13 @@
         <span class="toggle-hint">Vibrate on mobile devices when an exercise ends.</span>
       </label>
       <input type="checkbox" id="vibration_feedback" name="vibration_feedback" class="toggle-input"
-             role="switch" aria-checked="{{.Preferences.VibrationFeedback}}"
+             role="switch" aria-checked="{{if .Preferences.VibrationFeedback}}true{{else}}false{{end}}"
              {{if .Preferences.VibrationFeedback}}checked{{end}}>
     </div>
   </section>
 
   <!-- Reminder Settings (Req 8.1–8.4) -->
-  <section class="section" aria-labelledby="reminder-settings-heading">
+  <section class="prefs-section" aria-labelledby="reminder-settings-heading">
     <h2 id="reminder-settings-heading">Daily Reminders</h2>
 
     <div class="form-group form-group-toggle">
@@ -79,7 +79,7 @@
         <span class="toggle-hint">Receive a daily reminder to practice.</span>
       </label>
       <input type="checkbox" id="reminder_enabled" name="reminder_enabled" class="toggle-input"
-             role="switch" aria-checked="{{.Preferences.ReminderEnabled}}"
+             role="switch" aria-checked="{{if .Preferences.ReminderEnabled}}true{{else}}false{{end}}"
              {{if .Preferences.ReminderEnabled}}checked{{end}}>
     </div>
 
@@ -91,18 +91,42 @@
              aria-describedby="reminder-time-hint">
       <p id="reminder-time-hint" class="form-hint">Between 6:00 AM and 10:00 PM.</p>
     </div>
+
+    <fieldset class="form-group prefs-fieldset">
+      <legend class="form-label">Reminder Days</legend>
+      <div class="prefs-radio-group" role="radiogroup" aria-label="Reminder day schedule">
+        <label class="prefs-radio-label">
+          <input type="radio" name="reminder_days" value="all"
+                 {{if .Preferences.IsAllDays}}checked{{end}}
+                 aria-describedby="reminder-days-hint">
+          All Days
+        </label>
+        <label class="prefs-radio-label">
+          <input type="radio" name="reminder_days" value="weekdays"
+                 {{if .Preferences.IsWeekdaysOnly}}checked{{end}}>
+          Weekdays Only
+        </label>
+        <label class="prefs-radio-label">
+          <input type="radio" name="reminder_days" value="weekends"
+                 {{if .Preferences.IsWeekendsOnly}}checked{{end}}>
+          Weekends Only
+        </label>
+      </div>
+      <p id="reminder-days-hint" class="form-hint">Choose which days to receive reminders.</p>
+    </fieldset>
   </section>
 
-  <!-- Data Export (Req 9.7) -->
-  <section class="section" aria-labelledby="export-settings-heading">
-    <h2 id="export-settings-heading">Data Export</h2>
+  <!-- Export Format Preference (Req 9.7) -->
+  <section class="prefs-section" aria-labelledby="export-format-heading">
+    <h2 id="export-format-heading">Export Preferences</h2>
 
     <div class="form-group">
-      <label for="export_format" class="form-label">Export Format</label>
-      <select id="export_format" name="export_format" class="form-select">
+      <label for="export_format" class="form-label">Preferred Export Format</label>
+      <select id="export_format" name="export_format" class="form-select" aria-describedby="export-format-hint">
         <option value="json" {{if eq (print .Preferences.ExportFormat) "json"}}selected{{end}}>JSON</option>
         <option value="csv"  {{if eq (print .Preferences.ExportFormat) "csv"}}selected{{end}}>CSV</option>
       </select>
+      <p id="export-format-hint" class="form-hint">Default format used when exporting your data.</p>
     </div>
   </section>
 
@@ -112,16 +136,4 @@
   </div>
 
 </form>
-
-<!-- Export Data (Req 9.7) -->
-<section class="section" aria-labelledby="export-data-heading">
-  <h2 id="export-data-heading">Export Your Data</h2>
-  <p>Download all your practice data and preferences.</p>
-  <div class="actions">
-    <a href="/preferences/export?format=json" class="btn btn-secondary"
-       aria-label="Export data as JSON">Export as JSON</a>
-    <a href="/preferences/export?format=csv" class="btn btn-secondary"
-       aria-label="Export data as CSV">Export as CSV</a>
-  </div>
-</section>
 {{end}}
