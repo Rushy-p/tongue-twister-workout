@@ -952,6 +952,27 @@ select:focus {
   --secondary: #34D399;
   --accent: #FCD34D;
   --error: #F87171;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+}
+
+/* Extra visibility for interactive elements in high-contrast (Task 7.1, Req 12.2) */
+.high-contrast a,
+.high-contrast button,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Windows High Contrast Mode (forced-colors) */
+@media (forced-colors: active) {
+  .btn { forced-color-adjust: none; }
+  .badge { forced-color-adjust: none; }
+  .progress-bar-fill { forced-color-adjust: none; }
 }
 
 /* Non-color indicators (Req 12.6) — badges use shape/text, not color alone */
