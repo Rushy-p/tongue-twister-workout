@@ -425,3 +425,13 @@ func randomString(length int) string {
 	}
 	return string(b)
 }
+
+// MarkExerciseCompleted marks an exercise as completed standalone (outside a session).
+// Used when a user clicks "Mark as Complete" from the exercise detail page without an active session.
+func (s *SessionService) MarkExerciseCompleted(exerciseID string) error {
+	exercise, err := s.exerciseRepo.GetByID(exerciseID)
+	if err != nil {
+		return err
+	}
+	return s.exerciseRepo.UpdateCompletionCount(exerciseID, exercise.CompletionCount+1)
+}

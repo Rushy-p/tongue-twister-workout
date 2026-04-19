@@ -136,7 +136,8 @@
   </section>
 
   <section class="exercise-actions">
-    <form method="POST" action="/session/complete-exercise">
+    <form method="POST" action="/session/exercise/complete">
+      <input type="hidden" name="session_id" value="">
       <input type="hidden" name="exercise_id" value="{{.Exercise.ID}}">
       <button type="submit" class="btn btn-success" aria-label="Mark exercise as complete">
         Mark as Complete

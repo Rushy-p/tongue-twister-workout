@@ -103,7 +103,7 @@ func (h *SessionHandler) Start(w http.ResponseWriter, r *http.Request) {
 }
 
 // CompleteExercise handles recording an exercise completion within a session (Req 6.3)
-// POST: records the exercise and redirects back to the active session.
+// POST: records the exercise and redirects back to the active session (or exercise library if no session).
 func (h *SessionHandler) CompleteExercise(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		h.baseHandler.Error(w, http.StatusMethodNotAllowed, "Method not allowed")
@@ -112,14 +112,21 @@ func (h *SessionHandler) CompleteExercise(w http.ResponseWriter, r *http.Request
 
 	sessionID := r.FormValue("session_id")
 	exerciseID := r.FormValue("exercise_id")
-	if sessionID == "" || exerciseID == "" {
-		h.baseHandler.Error(w, http.StatusBadRequest, "Session ID and Exercise ID required")
+	if exerciseID == "" {
+		h.baseHandler.Error(w, http.StatusBadRequest, "Exercise ID required")
 		return
 	}
 
 	repetitions := 1
 	score := 0
 	notes := r.FormValue("notes")
+
+	// If no session ID, mark the exercise complete standalone and go back to library
+	if sessionID == "" {
+		_ = h.sessionService.MarkExerciseCompleted(exerciseID)
+		h.baseHandler.Redirect(w, r, "/exercises/"+exerciseID+"?completed=1", http.StatusFound)
+		return
+	}
 
 	_, err := h.sessionService.AddExerciseToSession(sessionID, exerciseID, repetitions, score, notes)
 	if err != nil {
