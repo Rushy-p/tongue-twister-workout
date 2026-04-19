@@ -32,6 +32,7 @@ func NewInMemoryExerciseRepository() *InMemoryExerciseRepository {
 		exercises: make(map[string]domain.Exercise),
 	}
 	repo.seedExercises()
+	repo.seedAdditionalExercises()
 	return repo
 }
 
@@ -454,6 +455,19 @@ func (r *InMemoryExerciseRepository) seedExercises() {
 	}
 
 	for _, e := range exercises {
+		r.exercises[e.ID] = e
+	}
+}
+// seedAdditionalExercises seeds the additional mouth exercises, tongue twisters, and strategies
+func (r *InMemoryExerciseRepository) seedAdditionalExercises() {
+	now := time.Now()
+	for _, e := range seedMouthExercises(now) {
+		r.exercises[e.ID] = e
+	}
+	for _, e := range seedTongueTwisters(now) {
+		r.exercises[e.ID] = e
+	}
+	for _, e := range seedStrategies(now) {
 		r.exercises[e.ID] = e
 	}
 }

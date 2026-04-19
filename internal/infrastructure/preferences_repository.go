@@ -118,3 +118,27 @@ func (r *InMemoryPreferencesRepository) exportToCSV(prefs domain.UserPreferences
 	csv += fmt.Sprintf("updated_at,%s\n", prefs.UpdatedAt.Format(time.RFC3339))
 	return csv
 }
+
+// exportPreferencesToCSV converts preferences to CSV format (shared helper)
+func exportPreferencesToCSV(prefs domain.UserPreferences) string {
+	csv := "key,value\n"
+	csv += fmt.Sprintf("id,%s\n", prefs.ID)
+	csv += fmt.Sprintf("user_id,%s\n", prefs.UserID)
+	csv += fmt.Sprintf("difficulty,%s\n", prefs.Difficulty)
+	csv += fmt.Sprintf("default_duration,%d\n", prefs.DefaultDuration)
+	csv += fmt.Sprintf("audio_feedback,%t\n", prefs.AudioFeedback)
+	csv += fmt.Sprintf("vibration_feedback,%t\n", prefs.VibrationFeedback)
+	csv += fmt.Sprintf("reminder_enabled,%t\n", prefs.ReminderEnabled)
+	csv += fmt.Sprintf("reminder_time,%s\n", prefs.ReminderTime.Format("15:04"))
+	csv += fmt.Sprintf("reminder_days,%v\n", prefs.ReminderDays)
+	csv += fmt.Sprintf("export_format,%s\n", prefs.ExportFormat)
+	csv += fmt.Sprintf("screen_reader_enabled,%t\n", prefs.Accessibility.ScreenReaderEnabled)
+	csv += fmt.Sprintf("high_contrast_mode,%t\n", prefs.Accessibility.HighContrastMode)
+	csv += fmt.Sprintf("text_size_multiplier,%.2f\n", prefs.Accessibility.TextSizeMultiplier)
+	csv += fmt.Sprintf("element_size_multiplier,%.2f\n", prefs.Accessibility.ElementSizeMultiplier)
+	csv += fmt.Sprintf("keyboard_navigation_enabled,%t\n", prefs.Accessibility.KeyboardNavigationEnabled)
+	csv += fmt.Sprintf("color_independent,%t\n", prefs.Accessibility.ColorIndependent)
+	csv += fmt.Sprintf("created_at,%s\n", prefs.CreatedAt.Format(time.RFC3339))
+	csv += fmt.Sprintf("updated_at,%s\n", prefs.UpdatedAt.Format(time.RFC3339))
+	return csv
+}

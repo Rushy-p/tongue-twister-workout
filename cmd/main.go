@@ -12,11 +12,30 @@ import (
 )
 
 func main() {
-	// Initialize repositories
+	// Initialize file storage (Req 14.1 — store all data locally)
+	storage, err := infrastructure.NewFileStorage("./data")
+	if err != nil {
+		log.Fatalf("Failed to init storage: %v", err)
+	}
+
+	// Initialize repositories — file-backed for persistence, in-memory for exercises
 	exerciseRepo := infrastructure.NewInMemoryExerciseRepository()
-	sessionRepo := infrastructure.NewInMemorySessionRepository()
-	progressRepo := infrastructure.NewInMemoryProgressRepository()
-	preferencesRepo := infrastructure.NewInMemoryPreferencesRepository()
+
+	sessionRepo, err := infrastructure.NewFileSessionRepository(storage)
+	if err != nil {
+		log.Fatalf("Failed to init session repository: %v", err)
+	}
+
+	progressRepo, err := infrastructure.NewFileProgressRepository(storage)
+	if err != nil {
+		log.Fatalf("Failed to init progress repository: %v", err)
+	}
+
+	preferencesRepo, err := infrastructure.NewFilePreferencesRepository(storage)
+	if err != nil {
+		log.Fatalf("Failed to init preferences repository: %v", err)
+	}
+
 	recommendationRepo := infrastructure.NewInMemoryRecommendationRepository()
 
 	// Initialize services

@@ -3,6 +3,8 @@ package infrastructure
 import (
 	"encoding/json"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"speech-practice-app/internal/pkg/encryption"
 )
@@ -18,7 +20,7 @@ func NewEncryptedFileStorage(storage *FileStorage, enc encryption.EncryptionServ
 	return &EncryptedFileStorage{storage: storage, enc: enc}
 }
 
-// SaveEncrypted marshals v to JSON, encrypts it, and writes to dataDir/filename
+// SaveEncrypted marshals v to JSON, encrypts it, and writes to dataDir/filename.enc
 func (s *EncryptedFileStorage) SaveEncrypted(filename string, v interface{}) error {
 	data, err := json.Marshal(v)
 	if err != nil {
@@ -28,15 +30,27 @@ func (s *EncryptedFileStorage) SaveEncrypted(filename string, v interface{}) err
 	if err != nil {
 		return fmt.Errorf("failed to encrypt data: %w", err)
 	}
-	// Store raw bytes via a byte-slice wrapper
-	return s.storage.SaveJSON(filename+".enc", encrypted)
+	encData, err := json.Marshal(encrypted)
+	if err != nil {
+		return fmt.Errorf("failed to marshal encrypted data: %w", err)
+	}
+	path := filepath.Join(s.storage.dataDir, filename+".enc")
+	if err := os.MkdirAll(s.storage.dataDir, 0755); err != nil {
+		return err
+	}
+	return os.WriteFile(path, encData, 0644)
 }
 
-// LoadEncrypted reads dataDir/filename, decrypts it, and unmarshals JSON into v
+// LoadEncrypted reads dataDir/filename.enc, decrypts it, and unmarshals JSON into v
 func (s *EncryptedFileStorage) LoadEncrypted(filename string, v interface{}) error {
-	var encrypted []byte
-	if err := s.storage.LoadJSON(filename+".enc", &encrypted); err != nil {
+	path := filepath.Join(s.storage.dataDir, filename+".enc")
+	raw, err := os.ReadFile(path)
+	if err != nil {
 		return fmt.Errorf("failed to read encrypted file: %w", err)
+	}
+	var encrypted []byte
+	if err := json.Unmarshal(raw, &encrypted); err != nil {
+		return fmt.Errorf("failed to unmarshal encrypted wrapper: %w", err)
 	}
 	decrypted, err := s.enc.Decrypt(encrypted)
 	if err != nil {

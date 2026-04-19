@@ -10,7 +10,9 @@ import (
 	"time"
 )
 
-// BackupManager handles backup and recovery of user data files
+// BackupManager handles backup and recovery of user data files.
+// Note: FileStorage now has built-in Backup/Restore methods.
+// BackupManager provides per-user backup operations on top of that.
 type BackupManager struct {
 	storage   *FileStorage
 	backupDir string
@@ -24,102 +26,48 @@ func NewBackupManager(storage *FileStorage) *BackupManager {
 	}
 }
 
-// CreateBackup copies all files belonging to userID into a timestamped backup directory
+// CreateBackup copies the current data file into a user-tagged timestamped backup
 func (m *BackupManager) CreateBackup(userID string) error {
 	if err := os.MkdirAll(m.backupDir, 0755); err != nil {
 		return fmt.Errorf("failed to create backup dir: %w", err)
 	}
 
+	src := filepath.Join(m.storage.dataDir, "userdata.json")
+	if _, err := os.Stat(src); os.IsNotExist(err) {
+		return errors.New("no data file to back up")
+	}
+
 	timestamp := time.Now().Format("20060102150405")
-	backupID := fmt.Sprintf("backup_%s_%s", userID, timestamp)
-	destDir := filepath.Join(m.backupDir, backupID)
-	if err := os.MkdirAll(destDir, 0755); err != nil {
-		return fmt.Errorf("failed to create backup destination: %w", err)
-	}
+	dst := filepath.Join(m.backupDir, fmt.Sprintf("userdata_%s_%s.json", userID, timestamp))
 
-	// Collect all files that belong to this user
-	prefixes := []string{
-		fmt.Sprintf("preferences_%s", userID),
-		fmt.Sprintf("session_"),
-		fmt.Sprintf("progress_%s_", userID),
-		fmt.Sprintf("streak_%s", userID),
-		fmt.Sprintf("achievements_%s", userID),
-		fmt.Sprintf("category_progress_%s", userID),
-	}
-
-	copied := 0
-	for _, prefix := range prefixes {
-		files, err := m.storage.List(prefix)
-		if err != nil {
-			continue
-		}
-		for _, f := range files {
-			// For session_ prefix, only copy sessions belonging to this user
-			// (we can't easily filter without loading; copy all and let restore handle it)
-			src := filepath.Join(m.storage.dataDir, f)
-			dst := filepath.Join(destDir, f)
-			if err := copyFile(src, dst); err == nil {
-				copied++
-			}
-		}
-	}
-
-	// Also copy the sessions index
-	indexSrc := filepath.Join(m.storage.dataDir, sessionsIndexFile)
-	if _, err := os.Stat(indexSrc); err == nil {
-		_ = copyFile(indexSrc, filepath.Join(destDir, sessionsIndexFile))
-	}
-
-	if copied == 0 {
-		// Remove empty backup dir
-		_ = os.Remove(destDir)
-		return errors.New("no data found for user")
+	if err := copyFile(src, dst); err != nil {
+		return fmt.Errorf("failed to create backup: %w", err)
 	}
 	return nil
 }
 
-// RestoreBackup restores user files from a specific backup
+// RestoreBackup restores data from a specific backup ID
 func (m *BackupManager) RestoreBackup(userID string, backupID string) error {
-	srcDir := filepath.Join(m.backupDir, backupID)
-	if _, err := os.Stat(srcDir); errors.Is(err, os.ErrNotExist) {
+	srcPath := filepath.Join(m.backupDir, backupID)
+	if _, err := os.Stat(srcPath); errors.Is(err, os.ErrNotExist) {
 		return errors.New("backup not found")
 	}
-
-	entries, err := os.ReadDir(srcDir)
-	if err != nil {
-		return fmt.Errorf("failed to read backup: %w", err)
-	}
-
-	if err := m.storage.EnsureDir(); err != nil {
-		return err
-	}
-
-	for _, e := range entries {
-		if e.IsDir() {
-			continue
-		}
-		src := filepath.Join(srcDir, e.Name())
-		dst := filepath.Join(m.storage.dataDir, e.Name())
-		if err := copyFile(src, dst); err != nil {
-			return fmt.Errorf("failed to restore file %s: %w", e.Name(), err)
-		}
-	}
-	return nil
+	return m.storage.RestoreFromBackup(srcPath)
 }
 
 // ListBackups returns all backup IDs for a user
 func (m *BackupManager) ListBackups(userID string) ([]string, error) {
 	entries, err := os.ReadDir(m.backupDir)
 	if err != nil {
-		if errors.Is(err, os.ErrNotExist) {
+		if os.IsNotExist(err) {
 			return []string{}, nil
 		}
 		return nil, err
 	}
-	prefix := fmt.Sprintf("backup_%s_", userID)
+	prefix := fmt.Sprintf("userdata_%s_", userID)
 	var result []string
 	for _, e := range entries {
-		if e.IsDir() && strings.HasPrefix(e.Name(), prefix) {
+		if !e.IsDir() && strings.HasPrefix(e.Name(), prefix) {
 			result = append(result, e.Name())
 		}
 	}
@@ -135,7 +83,6 @@ func (m *BackupManager) GetLatestBackup(userID string) (string, error) {
 	if len(backups) == 0 {
 		return "", errors.New("no backups found for user")
 	}
-	// Backups are named backup_{userID}_{timestamp} — lexicographic sort gives latest last
 	latest := backups[0]
 	for _, b := range backups[1:] {
 		if b > latest {
