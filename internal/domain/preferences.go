@@ -264,12 +264,12 @@ func (p *UserPreferences) IsReminderDay(day int) bool {
 }
 
 // GetTextSizePercentage returns the text size as a percentage
-func (a *AccessibilitySettings) GetTextSizePercentage() int {
+func (a AccessibilitySettings) GetTextSizePercentage() int {
 	return int(a.TextSizeMultiplier * 100)
 }
 
 // GetElementSizePercentage returns the element size as a percentage
-func (a *AccessibilitySettings) GetElementSizePercentage() int {
+func (a AccessibilitySettings) GetElementSizePercentage() int {
 	return int(a.ElementSizeMultiplier * 100)
 }
 

@@ -146,12 +146,12 @@ func (e *Exercise) Validate() error {
 }
 
 // GetDurationSeconds returns the duration in seconds
-func (e *Exercise) GetDurationSeconds() int {
+func (e Exercise) GetDurationSeconds() int {
 	return int(e.Duration.Seconds())
 }
 
 // IsCompleted returns true if the exercise has been completed at least once
-func (e *Exercise) IsCompleted() bool {
+func (e Exercise) IsCompleted() bool {
 	return e.CompletionCount > 0
 }
 

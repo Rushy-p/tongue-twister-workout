@@ -159,7 +159,7 @@ func (s *StreakRecord) BreakStreak() {
 }
 
 // IsUnlocked returns true if the achievement is unlocked
-func (a *Achievement) IsUnlocked() bool {
+func (a Achievement) IsUnlocked() bool {
 	return a.UnlockDate != nil
 }
 
@@ -179,7 +179,7 @@ func (a *Achievement) UpdateProgress(progress int) {
 }
 
 // GetCompletionPercentage returns the completion percentage
-func (a *Achievement) GetCompletionPercentage() float64 {
+func (a Achievement) GetCompletionPercentage() float64 {
 	if a.Target == 0 {
 		return 0
 	}
@@ -187,7 +187,7 @@ func (a *Achievement) GetCompletionPercentage() float64 {
 }
 
 // GetCompletionPercentage returns the completion percentage for category
-func (c *CategoryProgress) GetCompletionPercentage() float64 {
+func (c CategoryProgress) GetCompletionPercentage() float64 {
 	if c.TotalExercises == 0 {
 		return 0
 	}
