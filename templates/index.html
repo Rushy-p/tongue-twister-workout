@@ -12,7 +12,7 @@
   <ul class="exercise-list" role="list">
     {{range .RecentExercises}}
     <li class="exercise-card">
-      <a href="/exercises/{{.ID}}" class="exercise-card-link">
+      <a href="/exercises/{{.ID}}" class="exercise-card-link" aria-label="{{.Name}} — {{.Difficulty}} exercise">
         <span class="exercise-name">{{.Name}}</span>
         <span class="exercise-category badge">{{.Category}}</span>
         <span class="exercise-difficulty badge badge-{{.Difficulty}}">{{.Difficulty}}</span>

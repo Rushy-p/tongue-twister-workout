@@ -11,7 +11,8 @@
     <div
       id="session-timer"
       class="session-timer"
-      aria-live="off"
+      role="timer"
+      aria-live="polite"
       aria-label="Session elapsed time"
       data-start="{{.StartTime.Unix}}"
     >00:00</div>
@@ -71,11 +72,11 @@
 </section>
 
 <section class="section session-actions" aria-label="Session actions">
-  <form method="POST" action="/session/complete">
+  <form method="POST" action="/session/complete" aria-label="Complete current session">
     <input type="hidden" name="session_id" value="{{.SessionID}}">
     <button type="submit" class="btn btn-primary btn-large">Complete Session</button>
   </form>
-  <form method="POST" action="/session/save">
+  <form method="POST" action="/session/save" aria-label="Save session and exit">
     <input type="hidden" name="session_id" value="{{.SessionID}}">
     <button type="submit" class="btn btn-outline">Save &amp; Exit</button>
   </form>

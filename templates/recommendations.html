@@ -46,14 +46,14 @@
       <span class="badge badge-category">{{.Exercise.Category}}</span>
     </div>
     <div class="recommendation-actions">
-      <a href="/exercises/{{.Exercise.ID}}" class="btn btn-secondary">View</a>
-      <form method="POST" action="/recommendations/accept" style="display:inline">
+      <a href="/exercises/{{.Exercise.ID}}" class="btn btn-secondary" aria-label="View exercise: {{.Exercise.Name}}">View</a>
+      <form method="POST" action="/recommendations/accept" style="display:inline" aria-label="Accept recommendation: {{.Exercise.Name}}">
         <input type="hidden" name="exercise_id" value="{{.Exercise.ID}}">
-        <button type="submit" class="btn btn-primary">Accept</button>
+        <button type="submit" class="btn btn-primary" aria-label="Accept {{.Exercise.Name}}">Accept</button>
       </form>
-      <form method="POST" action="/recommendations/reject" style="display:inline">
+      <form method="POST" action="/recommendations/reject" style="display:inline" aria-label="Dismiss recommendation: {{.Exercise.Name}}">
         <input type="hidden" name="exercise_id" value="{{.Exercise.ID}}">
-        <button type="submit" class="btn btn-outline">Not now</button>
+        <button type="submit" class="btn btn-outline" aria-label="Dismiss {{.Exercise.Name}}">Not now</button>
       </form>
     </div>
   </li>
