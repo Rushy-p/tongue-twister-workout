@@ -2282,3 +2282,36 @@ select:focus {
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
+
+/* ============================================================
+   Focus Management (Task 7.2, Req 12.1, 12.5)
+   ============================================================ */
+
+/* Focus trap utility (for modals/dialogs if added later) */
+.focus-trap {
+  position: relative;
+}
+
+/* Announce dynamic content to screen readers */
+.live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus indicator for the main content area (after skip link) */
+#main-content:focus {
+  outline: none; /* main gets focus programmatically from skip link — no visible ring needed */
+}
+
+/* Ensure interactive elements in high-contrast have clear focus */
+.high-contrast :focus-visible {
+  outline: 3px solid #FFFFFF;
+  outline-offset: 3px;
+}

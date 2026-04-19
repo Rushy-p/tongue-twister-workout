@@ -60,6 +60,20 @@
       }
     })();
   </script>
+
+  <script>
+    // Focus management: detect keyboard vs mouse navigation
+    (function() {
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          document.body.classList.add('keyboard-user');
+        }
+      });
+      document.addEventListener('mousedown', function() {
+        document.body.classList.remove('keyboard-user');
+      });
+    })();
+  </script>
 </body>
 </html>
 {{end}}
