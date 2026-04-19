@@ -2249,3 +2249,36 @@ select:focus {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   Keyboard Navigation Support (Task 7.2, Req 12.5)
+   ============================================================ */
+
+/* Visible focus indicator for keyboard users */
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* Remove outline for mouse users (only show for keyboard) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Tab order helpers */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
+/* Keyboard-navigable card */
+.exercise-card:focus-within {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+
+/* Nav keyboard focus */
+.nav-link:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
