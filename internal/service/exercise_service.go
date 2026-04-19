@@ -607,7 +607,27 @@ func (s *ExerciseService) MarkExerciseCompleted(userID, exerciseID string) error
 	return s.exerciseRepo.UpdateCompletionCount(exerciseID, newCount)
 }
 
-// Helper functions
+// sortByDifficulty sorts exercises beginner → intermediate → advanced, then by ID for stability.
+func sortByDifficulty(exercises []domain.Exercise) {
+	order := map[domain.DifficultyLevel]int{
+		domain.DifficultyBeginner:     0,
+		domain.DifficultyIntermediate: 1,
+		domain.DifficultyAdvanced:     2,
+	}
+	sort.Slice(exercises, func(i, j int) bool {
+		oi := order[exercises[i].Difficulty]
+		oj := order[exercises[j].Difficulty]
+		if oi != oj {
+			return oi < oj
+		}
+		return exercises[i].ID < exercises[j].ID
+	})
+}
+
+// SortByDifficulty sorts a slice of exercises beginner → intermediate → advanced.
+func (s *ExerciseService) SortByDifficulty(exercises []domain.Exercise) {
+	sortByDifficulty(exercises)
+}
 
 func containsSound(sounds []domain.SoundTarget, target domain.SoundTarget) bool {
 	for _, s := range sounds {

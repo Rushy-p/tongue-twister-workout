@@ -122,6 +122,7 @@ func (h *ExerciseHandler) List(w http.ResponseWriter, r *http.Request) {
 	for _, cd := range categoryDefs {
 		filter := service.ExerciseFilter{Category: &cd.name}
 		catExercises, _ := h.exerciseService.GetExercisesByFilter(filter)
+		h.exerciseService.SortByDifficulty(catExercises)
 		categories = append(categories, CategorySummary{
 			Name:        string(cd.name),
 			Slug:        cd.slug,
@@ -171,6 +172,7 @@ func (h *ExerciseHandler) Category(w http.ResponseWriter, r *http.Request) {
 		h.baseHandler.Error(w, http.StatusInternalServerError, "Failed to load exercises")
 		return
 	}
+	h.exerciseService.SortByDifficulty(exercises)
 
 	userID := h.baseHandler.GetUserID(r)
 	ids := make([]string, len(exercises))
