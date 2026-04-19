@@ -41,11 +41,38 @@ func NewBaseHandler(
 	}
 }
 
-// Render renders a page template by executing the "base" layout with the named
-// template's "content" block. The name parameter is kept for logging context.
+// Render renders a named page template wrapped in the base layout.
+// Each page template must define a block named after its file (without .html),
+// e.g. templates/exercises.html defines {{define "exercises"}}.
+// The base layout injects it via {{template "content" .}} after we clone
+// the template set and add a "content" alias pointing to the right block.
 func (h *BaseHandler) Render(w http.ResponseWriter, name string, data interface{}) {
+	// Derive the template block name from the filename (strip .html suffix)
+	blockName := name
+	if len(blockName) > 5 && blockName[len(blockName)-5:] == ".html" {
+		blockName = blockName[:len(blockName)-5]
+	}
+
+	// Clone the template set so we can add a "content" alias without mutating
+	// the shared set (safe for concurrent requests).
+	cloned, err := h.templates.Clone()
+	if err != nil {
+		log.Printf("Template clone error (%s): %v", name, err)
+		http.Error(w, "Template error", http.StatusInternalServerError)
+		return
+	}
+
+	// Add a "content" template that delegates to the page-specific block.
+	alias := `{{define "content"}}{{template "` + blockName + `" .}}{{end}}`
+	cloned, err = cloned.New("content_alias").Parse(alias)
+	if err != nil {
+		log.Printf("Template alias error (%s): %v", name, err)
+		http.Error(w, "Template error", http.StatusInternalServerError)
+		return
+	}
+
 	w.Header().Set("Content-Type", "text/html")
-	if err := h.templates.ExecuteTemplate(w, "base", data); err != nil {
+	if err := cloned.ExecuteTemplate(w, "base", data); err != nil {
 		log.Printf("Template error (%s): %v", name, err)
 		http.Error(w, "Template error", http.StatusInternalServerError)
 	}
@@ -81,7 +108,18 @@ func (h *BaseHandler) Error(w http.ResponseWriter, code int, message string) {
 	}
 	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(code)
-	if err := h.templates.ExecuteTemplate(w, "base", data); err != nil {
+	cloned, err := h.templates.Clone()
+	if err != nil {
+		http.Error(w, message, code)
+		return
+	}
+	alias := `{{define "content"}}{{template "error" .}}{{end}}`
+	cloned, err = cloned.New("content_alias").Parse(alias)
+	if err != nil {
+		http.Error(w, message, code)
+		return
+	}
+	if err := cloned.ExecuteTemplate(w, "base", data); err != nil {
 		log.Printf("Error template render failed (%d): %v", code, err)
 		http.Error(w, message, code)
 	}
