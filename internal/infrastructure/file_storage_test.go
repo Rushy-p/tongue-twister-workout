@@ -200,3 +200,166 @@ func TestFileStorage_ValidateData(t *testing.T) {
 		t.Error("expected error for invalid JSON")
 	}
 }
+
+func TestFileStorage_Backup(t *testing.T) {
+	dir := t.TempDir()
+	fs, err := NewFileStorage(dir)
+	if err != nil {
+		t.Fatalf("NewFileStorage: %v", err)
+	}
+
+	// Save some data first
+	data := fs.emptyStoredData()
+	if err := fs.Save(data); err != nil {
+		t.Fatalf("Save: %v", err)
+	}
+
+	backupPath, err := fs.Backup()
+	if err != nil {
+		t.Fatalf("Backup: %v", err)
+	}
+	if backupPath == "" {
+		t.Error("expected non-empty backup path")
+	}
+	if _, err := os.Stat(backupPath); err != nil {
+		t.Errorf("backup file should exist: %v", err)
+	}
+}
+
+func TestFileStorage_ListBackups(t *testing.T) {
+	dir := t.TempDir()
+	fs, err := NewFileStorage(dir)
+	if err != nil {
+		t.Fatalf("NewFileStorage: %v", err)
+	}
+
+	// No backups yet
+	backups, err := fs.ListBackups()
+	if err != nil {
+		t.Fatalf("ListBackups: %v", err)
+	}
+	if len(backups) != 0 {
+		t.Errorf("expected 0 backups, got %d", len(backups))
+	}
+
+	// Create data and backup
+	data := fs.emptyStoredData()
+	if err := fs.Save(data); err != nil {
+		t.Fatalf("Save: %v", err)
+	}
+	if _, err := fs.Backup(); err != nil {
+		t.Fatalf("Backup: %v", err)
+	}
+
+	backups, err = fs.ListBackups()
+	if err != nil {
+		t.Fatalf("ListBackups after backup: %v", err)
+	}
+	if len(backups) == 0 {
+		t.Error("expected at least 1 backup")
+	}
+}
+
+func TestFileStorage_RestoreFromBackup(t *testing.T) {
+	dir := t.TempDir()
+	fs, err := NewFileStorage(dir)
+	if err != nil {
+		t.Fatalf("NewFileStorage: %v", err)
+	}
+
+	// Save original data
+	data := fs.emptyStoredData()
+	data.Preferences = map[string]domain.UserPreferences{
+		"u1": *domain.NewUserPreferences("u1"),
+	}
+	if err := fs.Save(data); err != nil {
+		t.Fatalf("Save: %v", err)
+	}
+
+	// Create backup
+	backupPath, err := fs.Backup()
+	if err != nil {
+		t.Fatalf("Backup: %v", err)
+	}
+
+	// Overwrite with different data
+	data2 := fs.emptyStoredData()
+	data2.Preferences = map[string]domain.UserPreferences{
+		"u2": *domain.NewUserPreferences("u2"),
+	}
+	if err := fs.Save(data2); err != nil {
+		t.Fatalf("Save data2: %v", err)
+	}
+
+	// Restore from backup
+	if err := fs.RestoreFromBackup(backupPath); err != nil {
+		t.Fatalf("RestoreFromBackup: %v", err)
+	}
+
+	// Verify original data is restored
+	loaded, err := fs.Load()
+	if err != nil {
+		t.Fatalf("Load after restore: %v", err)
+	}
+	if _, ok := loaded.Preferences["u1"]; !ok {
+		t.Error("u1 preferences should be restored")
+	}
+}
+
+func TestFileStorage_AutoBackupOnSave(t *testing.T) {
+	dir := t.TempDir()
+	fs, err := NewFileStorage(dir)
+	if err != nil {
+		t.Fatalf("NewFileStorage: %v", err)
+	}
+
+	// First save creates the file
+	data := fs.emptyStoredData()
+	if err := fs.Save(data); err != nil {
+		t.Fatalf("first Save: %v", err)
+	}
+
+	// Second save should auto-backup the first
+	if err := fs.Save(data); err != nil {
+		t.Fatalf("second Save: %v", err)
+	}
+
+	backups, err := fs.ListBackups()
+	if err != nil {
+		t.Fatalf("ListBackups: %v", err)
+	}
+	if len(backups) == 0 {
+		t.Error("expected auto-backup to be created on second save")
+	}
+}
+
+func TestFileStorage_BackupPruning(t *testing.T) {
+	dir := t.TempDir()
+	fs, err := NewFileStorage(dir)
+	if err != nil {
+		t.Fatalf("NewFileStorage: %v", err)
+	}
+
+	// Create initial data file
+	data := fs.emptyStoredData()
+	if err := fs.Save(data); err != nil {
+		t.Fatalf("Save: %v", err)
+	}
+
+	// Create 7 backups — should be pruned to 5
+	for i := 0; i < 7; i++ {
+		if _, err := fs.Backup(); err != nil {
+			t.Fatalf("Backup %d: %v", i, err)
+		}
+		// Small sleep to ensure different timestamps
+		time.Sleep(time.Millisecond)
+	}
+
+	backups, err := fs.ListBackups()
+	if err != nil {
+		t.Fatalf("ListBackups: %v", err)
+	}
+	if len(backups) > 5 {
+		t.Errorf("expected at most 5 backups after pruning, got %d", len(backups))
+	}
+}
