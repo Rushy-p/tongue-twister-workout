@@ -2205,3 +2205,26 @@ select:focus {
     width: 100%;
   }
 }
+
+/* ============================================================
+   Responsive — desktop (1024px) (Task 7.1, Req 12.7)
+   ============================================================ */
+@media (max-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .exercise-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================================
+   Reduced Motion (Task 7.1, Req 12.7)
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
