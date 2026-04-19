@@ -54,6 +54,24 @@
 	--transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 	--transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
 	--transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+	/* Additional Spacing (Task 7.1, Req 12.7) */
+	--space-5: 20px;
+	--space-10: 40px;
+
+	/* Font Weights */
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-bold: 700;
+
+	/* Line Heights */
+	--line-height-tight: 1.2;
+	--line-height-normal: 1.6;
+
+	/* Z-Index Scale */
+	--z-index-sticky: 100;
+	--z-index-modal: 200;
+	--z-index-toast: 300;
 }
 
 /* Reset and Base Styles */

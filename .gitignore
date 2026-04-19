@@ -2,7 +2,9 @@
 .kiro/
 
 # Developer docs (internal only)
+docs/*
 docs/ARCHITECTURE.md
+docs/GIT_GUIDE.md
 
 # Go build artifacts
 *.exe
