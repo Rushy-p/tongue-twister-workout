@@ -9,7 +9,18 @@
       "status": "in_progress",
       "notes": "",
       "created_at": "2026-04-19T19:57:25.993968+12:00",
-      "updated_at": 1833
+      "updated_at": 2543292
+    },
+    {
+      "id": "20260419201219-qemmuC08",
+      "user_id": "default-user",
+      "start_time": "2026-04-19T20:12:19.883416+12:00",
+      "exercises": [],
+      "total_duration": 0,
+      "status": "in_progress",
+      "notes": "",
+      "created_at": "2026-04-19T20:12:19.883416+12:00",
+      "updated_at": 7359917
     }
   ],
   "progress_records": [],
@@ -18,5 +29,5 @@
   "achievements": {},
   "preferences": {},
   "version": "1.0",
-  "saved_at": "2026-04-19T19:57:25.99399+12:00"
+  "saved_at": "2026-04-19T20:12:19.891445+12:00"
 }

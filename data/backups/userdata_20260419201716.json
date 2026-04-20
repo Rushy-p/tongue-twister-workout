@@ -59,21 +59,9 @@
       "updated_at": "2026-04-19T20:17:16.583574+12:00"
     }
   },
-  "category_progress": {
-    "default-user": {
-      "mouth_exercise": {
-        "user_id": "default-user",
-        "category": "mouth_exercise",
-        "total_exercises": 55,
-        "completed_exercises": 1,
-        "total_time": 60000000000,
-        "average_session_length": 0,
-        "updated_at": "2026-04-19T20:17:16.587568+12:00"
-      }
-    }
-  },
+  "category_progress": {},
   "achievements": {},
   "preferences": {},
   "version": "1.0",
-  "saved_at": "2026-04-19T20:17:16.588537+12:00"
+  "saved_at": "2026-04-19T20:17:16.586889+12:00"
 }
